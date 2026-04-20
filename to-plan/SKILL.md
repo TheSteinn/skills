@@ -5,7 +5,7 @@ description: Turn a PRD into a multi-phase implementation plan using tracer-bull
 
 # PRD to Plan
 
-Break a PRD into a phased implementation plan using vertical slices (tracer bullets). Output is a Markdown file in `./.planning/` with the filename `PLAN.md`.
+Break a PRD into a phased implementation plan using vertical slices (tracer bullets). Output is a Markdown file in `./.planning/` named after the feature and prefixed with PLAN.
 
 ## Process
 
@@ -17,9 +17,11 @@ The PRD should already be in the conversation. If it isn't, ask the user to past
 
 If you have not already explored the codebase, do so to understand the current architecture, existing patterns, and integration layers.
 
+Delegate exploration to dedicated subagents in order to preserve your own context.
+
 ### 3. Identify durable architectural decisions
 
-Before slicing, identify high-level decisions that are unlikely to change throughout implementation:
+Before slicing, identify any high-level decisions that are unlikely to change throughout implementation. Examples, where applicable:
 
 - Route structures / URL patterns
 - Database schema shape
@@ -34,11 +36,11 @@ These go in the plan header so every phase can reference them.
 Break the PRD into **tracer bullet** phases. Each phase is a thin vertical slice that cuts through ALL integration layers end-to-end, NOT a horizontal slice of one layer.
 
 <vertical-slice-rules>
-- Each slice delivers a narrow but COMPLETE path through every layer (schema, API, UI, tests)
+- Each slice delivers a narrow but COMPLETE end-to-end path through the relevant layers of the system (for example: data model, API, business logic, UI, background jobs, integrations, tests)
 - A completed slice is demoable or verifiable on its own
 - Prefer many thin slices over few thick ones
 - Do NOT include specific file names, function names, or implementation details that are likely to change as later phases are built
-- DO include durable decisions: route paths, schema shapes, data model names
+- DO include durable decisions that are likely to remain stable across phases, such as route paths, schema shapes, data model names, interface boundaries, or external contracts, where applicable
 </vertical-slice-rules>
 
 ### 5. Quiz the user
@@ -68,10 +70,11 @@ Create `./.planning/` if it doesn't exist. Write the plan as a Markdown file nam
 
 Durable decisions that apply across all phases:
 
+<!-- Include only the sections that apply to this feature. -->
 - **Routes**: ...
 - **Schema**: ...
 - **Key models**: ...
-- (add/remove sections as appropriate)
+- **Interfaces / contracts**: ...
 
 ---
 

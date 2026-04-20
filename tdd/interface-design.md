@@ -4,27 +4,27 @@ Good interfaces make testing natural:
 
 1. **Accept dependencies, don't create them**
 
-   ```typescript
-   // Testable
-   function processOrder(order, paymentGateway) {}
+    ```
+    GOOD: Accept dependency from the caller
+    process_order(order, payment_gateway)
 
-   // Hard to test
-   function processOrder(order) {
-     const gateway = new StripeGateway();
-   }
-   ```
+    BAD: Create dependency internally
+    process_order(order):
+      gateway = create_payment_gateway()
+    ```
 
-2. **Return results, don't produce side effects**
+2. **Return results instead of mutating caller-provided state**
 
-   ```typescript
-   // Testable
-   function calculateDiscount(cart): Discount {}
+    Design interfaces to return explicit results by default. Only use mutation or side-effect-only commands when that behavior is inherently the contract and cannot be expressed more clearly as a returned result.
 
-   // Hard to test
-   function applyDiscount(cart): void {
-     cart.total -= discount;
-   }
-   ```
+    ```
+    GOOD: Return a result
+    discount = calculate_discount(cart)
+
+    BAD: Mutate caller-provided state
+    apply_discount(cart)
+      cart.total = cart.total - discount
+    ```
 
 3. **Small surface area**
    - Fewer methods = fewer tests needed

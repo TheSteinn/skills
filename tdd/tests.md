@@ -4,14 +4,17 @@
 
 **Integration-style**: Test through real interfaces, not mocks of internal parts.
 
-```typescript
-// GOOD: Tests observable behavior
-test("user can checkout with valid cart", async () => {
-  const cart = createCart();
-  cart.add(product);
-  const result = await checkout(cart, paymentMethod);
-  expect(result.status).toBe("confirmed");
-});
+```
+GOOD: Tests observable behavior
+
+TEST "user can checkout with valid cart"
+  cart = create_cart()
+  cart.add(product)
+
+  result = checkout(cart, payment_method)
+
+  ASSERT result.status == "confirmed"
+END
 ```
 
 Characteristics:
@@ -26,13 +29,16 @@ Characteristics:
 
 **Implementation-detail tests**: Coupled to internal structure.
 
-```typescript
-// BAD: Tests implementation details
-test("checkout calls paymentService.process", async () => {
-  const mockPayment = jest.mock(paymentService);
-  await checkout(cart, payment);
-  expect(mockPayment.process).toHaveBeenCalledWith(cart.total);
-});
+```
+BAD: Tests implementation details
+
+TEST "checkout calls payment processor with cart total"
+  payment_processor = mock_internal_collaborator()
+
+  checkout(cart, payment_processor)
+
+  ASSERT payment_processor.process WAS_CALLED_WITH cart.total
+END
 ```
 
 Red flags:
@@ -42,20 +48,29 @@ Red flags:
 - Asserting on call counts/order
 - Test breaks when refactoring without behavior change
 - Test name describes HOW not WHAT
-- Verifying through external means instead of interface
+- Verifying through a lower-level mechanism when a stable public interface is available
 
-```typescript
-// BAD: Bypasses interface to verify
-test("createUser saves to database", async () => {
-  await createUser({ name: "Alice" });
-  const row = await db.query("SELECT * FROM users WHERE name = ?", ["Alice"]);
-  expect(row).toBeDefined();
-});
+```
+BAD: Bypasses a higher-level interface to verify behavior
 
-// GOOD: Verifies through interface
-test("createUser makes user retrievable", async () => {
-  const user = await createUser({ name: "Alice" });
-  const retrieved = await getUser(user.id);
-  expect(retrieved.name).toBe("Alice");
-});
+TEST "create user saves to storage"
+  create_user(name = "Alice")
+
+  row = query_storage("users", where_name = "Alice")
+
+  ASSERT row EXISTS
+END
+
+GOOD: Verifies through the public interface
+
+TEST "create user makes user retrievable"
+  user = create_user(name = "Alice")
+  retrieved = get_user(user.id)
+
+  ASSERT retrieved.name == "Alice"
+END
+
+NOTE: If persistence is itself the public contract of the component under test,
+asserting on stored state can be correct. Prefer the highest-level stable interface
+that matches the behavior you are trying to verify.
 ```

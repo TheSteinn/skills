@@ -1,23 +1,23 @@
 ---
-name: write-a-prd
-description: Create a PRD through user interview, codebase exploration, and module design, then saved as a local Markdown file in ./.planning/. Use when user wants to write a PRD, create a product requirements document, or plan a new feature.
+name: to-prd
+description: Turn the current conversation context into a PRD and save it as a Markdown file in the `./.planning` directory. Use when user wants to create a PRD from the current context.
 ---
 
-This skill will be invoked when the user wants to create a PRD. You may skip steps if you don't consider them necessary.
+This skill takes the current conversation context and codebase understanding and produces a PRD.
 
-1. Ask the user for a long, detailed description of the problem they want to solve and any potential ideas for solutions.
+Do NOT run a broad discovery interview. Synthesize from the current conversation and codebase context. Only ask a brief follow-up if needed to avoid a likely mistake in scope, module selection, or testing recommendations.
 
-2. Explore the repo to verify their assertions and understand the current state of the codebase.
+## Process
 
-3. Interview the user relentlessly about every aspect of this plan until you reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one.
+1. Explore the repo to understand the current state of the codebase, if you haven't already. Keep exploration under the constraint of the current context - there is no need to explore unrelated modules.
 
-4. Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation.
+2. Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation.
 
 A deep module (as opposed to a shallow module) is one which encapsulates a lot of functionality in a simple, testable interface which rarely changes.
 
-Check with the user that these modules match their expectations. Check with the user which modules they want tests written for.
+If module boundaries or test targets are ambiguous, ask at most 1-2 focused clarification questions to confirm expectations. Otherwise proceed without asking.
 
-5. Once you have a complete understanding of the problem and solution, use the template below to write the PRD. Create `./.planning/` if it doesn't exist. Write the PRD as a Markdown file named after the feature and prefixed with `PRD` (e.g. `./.planning/PRD-user-onboarding.md`).
+3. Write the PRD using the template below. Create `./.planning/` if it doesn't exist. Save the PRD as a Markdown file named after the feature and prefixed with `PRD` (e.g. `./.planning/PRD-user-onboarding.md`).
 
 <prd-template>
 
@@ -60,7 +60,7 @@ Do NOT include specific file paths or code snippets. They may end up being outda
 A list of testing decisions that were made. Include:
 
 - A description of what makes a good test (only test external behavior, not implementation details)
-- Which modules will be tested
+- Which directly affected modules will be tested, or which existing modules need tests because their behavior must change to support the feature
 - Prior art for the tests (i.e. similar types of tests in the codebase)
 
 ## Out of Scope

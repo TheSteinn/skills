@@ -21,39 +21,33 @@ At system boundaries, design interfaces that are easy to mock:
 
 Pass external dependencies in rather than creating them internally:
 
-```typescript
-// Easy to mock
-function processPayment(order, paymentClient) {
-  return paymentClient.charge(order.total);
-}
+```
+GOOD: Easy to mock
+process_payment(order, payment_client)
+  return payment_client.charge(order.total)
 
-// Hard to mock
-function processPayment(order) {
-  const client = new StripeClient(process.env.STRIPE_KEY);
-  return client.charge(order.total);
-}
+BAD: Hard to mock
+process_payment(order)
+  client = create_payment_client()
+  return client.charge(order.total)
 ```
 
-**2. Prefer SDK-style interfaces over generic fetchers**
+**2. Prefer specific boundary operations over generic multi-purpose entry points**
 
-Create specific functions for each external operation instead of one generic function with conditional logic:
+Create specific operations for each external interaction instead of one generic boundary function with conditional logic:
 
-```typescript
-// GOOD: Each function is independently mockable
-const api = {
-  getUser: (id) => fetch(`/users/${id}`),
-  getOrders: (userId) => fetch(`/users/${userId}/orders`),
-  createOrder: (data) => fetch('/orders', { method: 'POST', body: data }),
-};
+```
+GOOD: Each operation is independently mockable
+external_service.get_user(user_id)
+external_service.get_orders(user_id)
+external_service.create_order(order_data)
 
-// BAD: Mocking requires conditional logic inside the mock
-const api = {
-  fetch: (endpoint, options) => fetch(endpoint, options),
-};
+BAD: Mocking requires conditional logic inside the test double
+external_service.call(operation_name, payload)
 ```
 
-The SDK approach means:
-- Each mock returns one specific shape
+The specific-operation approach means:
+- Each test double returns one specific shape
 - No conditional logic in test setup
-- Easier to see which endpoints a test exercises
-- Type safety per endpoint
+- Easier to see which external operations a test exercises
+- Type safety per operation
