@@ -1,9 +1,9 @@
 ---
 name: to-prd
-description: Turn the current conversation context into a PRD and save it as a Markdown file in the `./.planning` directory. Use when user wants to create a PRD from the current context.
+description: Turn the current conversation context and Decision Snapshot into a PRD and save it as a Markdown file in the `./.planning` directory. Use when user wants to create a PRD, write a requirements document, or define feature scope and user stories. Particularly useful for large features that will be broken into multiple plans or issues, or when a standalone requirements document is needed for stakeholders. For small features, to-plan can work directly from the Snapshot without a PRD.
 ---
 
-This skill takes the current conversation context and codebase understanding and produces a PRD.
+This skill takes the current conversation and codebase understanding and produces a PRD.
 
 Do NOT run a broad discovery interview. Synthesize from the current conversation and codebase context. Only ask a brief follow-up if needed to avoid a likely mistake in scope, module selection, or testing recommendations.
 
@@ -11,13 +11,16 @@ Do NOT run a broad discovery interview. Synthesize from the current conversation
 
 1. Explore the repo to understand the current state of the codebase, if you haven't already. Keep exploration under the constraint of the current context - there is no need to explore unrelated modules.
 
-2. Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation.
+2. **Read the Decision Snapshot.** Look for `.planning/decisions-<feature>.md`. If it exists, it is the authoritative source for durable design contracts and architectural decisions. The PRD must align with it.
+
+3. Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation.
 
 A deep module (as opposed to a shallow module) is one which encapsulates a lot of functionality in a simple, testable interface which rarely changes.
 
 If module boundaries or test targets are ambiguous, ask at most 1-2 focused clarification questions to confirm expectations. Otherwise proceed without asking.
 
-3. Write the PRD using the template below. Create `./.planning/` if it doesn't exist. Save the PRD as a Markdown file named after the feature and prefixed with `PRD` (e.g. `./.planning/PRD-user-onboarding.md`).
+
+4. Write the PRD using the template below. Create `./.planning/` if it doesn't exist. Save the PRD as a Markdown file named after the feature and prefixed with `PRD` (e.g. `./.planning/PRD-user-onboarding.md`).
 
 <prd-template>
 
@@ -53,6 +56,11 @@ A list of implementation decisions that were made. This can include:
 - API contracts
 - Specific interactions
 
+**Contract Fidelity Rule:**
+If a Decision Snapshot exists, reproduce every durable design contract from it exactly in this section. Embed contracts in their natural form (JSON, TypeScript, SQL, OpenAPI, etc.) inside fenced code blocks. Do NOT summarize, paraphrase, or translate a structured contract into prose. The contract in the PRD must be byte-for-byte identical to the contract in the snapshot.
+
+If there is a conflict between the conversation context and the Decision Snapshot, the Snapshot wins. It represents the confirmed, reconciled design.
+
 Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
 
 ## Testing Decisions
@@ -72,3 +80,8 @@ A description of the things that are out of scope for this PRD.
 Any further notes about the feature.
 
 </prd-template>
+
+5. **Anti-Leak Validation.** Before saving the PRD, review it against the Decision Snapshot (if one exists) and the conversation context. Ask yourself:
+   - Does the PRD contain any decision or contract that was invalidated or rejected during the design session?
+   - Does the PRD omit any final contract from the Decision Snapshot?
+   - If you find an invalidated decision, remove it. If you find a missing contract, add it.
