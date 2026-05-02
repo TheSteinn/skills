@@ -1,0 +1,21 @@
+{
+  "skill_name": "grill-me",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Grill me on building a notification system. I initially want WebSockets for real-time delivery, but after discussing scale concerns I switch to a polling model with SSE as a future upgrade. Compile the decision snapshot.",
+      "expected_output": "A Decision Snapshot file at .planning/decisions-notification-system.md that contains only the polling model as the final resolution for the delivery mechanism, with no WebSocket contracts in the Decisions section, and the rationale noting that WebSockets were rejected due to scale concerns.",
+      "files": [],
+      "expectations": [
+        "The output includes a decision snapshot file (.planning/decisions-notification-system.md)",
+        "The snapshot's Decisions section contains a topic for the delivery/notification mechanism with the polling model as the final resolution",
+        "No WebSocket contracts appear anywhere in the Decisions section of the snapshot",
+        "The Rationale field for the delivery mechanism topic notes that WebSockets were rejected or superseded due to scale concerns",
+        "SSE is mentioned as a future upgrade path, not as the current resolution",
+        "The snapshot follows the topic-locked format with exactly one Resolution per topic (no duplicate or conflicting resolutions)",
+        "The Open Questions section exists in the snapshot (even if empty)",
+        "The snapshot includes structured contracts (e.g., API endpoints, TypeScript interfaces, or SQL schemas) in their natural form inside fenced code blocks, not paraphrased into prose"
+      ]
+    }
+  ]
+}

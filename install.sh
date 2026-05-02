@@ -6,7 +6,7 @@ DEST_DIR="$HOME/.agents/skills"
 
 mkdir -p "$DEST_DIR"
 
-for skill_dir in "$SCRIPT_DIR"/*/; do
+for skill_dir in "$SCRIPT_DIR/skills"/*/; do
   skill_name="$(basename "$skill_dir")"
   if [ "$skill_name" = ".git" ] || [ "$skill_name" = ".idea" ]; then
     continue
