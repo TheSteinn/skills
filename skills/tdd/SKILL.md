@@ -63,7 +63,7 @@ Write ONE test that confirms ONE thing about the system:
 
 ```
 RED:   Write test for first behavior → test fails
-GREEN: Write minimal code to pass → test passes
+GREEN: Write minimal code to pass → test passes. Apply `code-doc` skill to any new or modified interfaces
 ```
 
 This is your tracer bullet - proves the path works end-to-end.
@@ -74,7 +74,7 @@ For each remaining behavior:
 
 ```
 RED:   Write next test → fails
-GREEN: Minimal code to pass → passes
+GREEN: Minimal code to pass → passes. Apply `code-doc` skill to any new or modified interfaces
 ```
 
 Rules:
@@ -92,6 +92,7 @@ After all tests pass, look for [refactor candidates](refactoring.md):
 - [ ] Deepen modules (move complexity behind simple interfaces)
 - [ ] Apply SOLID principles where natural
 - [ ] Consider what new code reveals about existing code
+- [ ] Update documentation for any interfaces whose behaviour or structure changed (use the `code-doc` skill)
 - [ ] Run tests after each refactor step
 
 **Never refactor while RED.** Get to GREEN first.
@@ -104,4 +105,5 @@ After all tests pass, look for [refactor candidates](refactoring.md):
 [ ] Test would survive internal refactor
 [ ] Code is minimal for this test
 [ ] No speculative features added
+[ ] Interfaces have been documented using the `code-doc` skill
 ```
