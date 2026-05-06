@@ -30,7 +30,7 @@ Summarize the final state of the plan, listing all resolved decisions and remain
 - Ask one question at a time - Do not batch several unrelated questions into one message.
 - Prefer single-select multiple choice - Use single-select when choosing one direction, one priority, or one next step.
 - Use multi-select rarely and intentionally - Use it only for compatible sets such as goals, constraints, non-goals, or success criteria that can all coexist. If prioritization matters, follow up by asking which selected item is primary.
-- Use the platform's question tool when available - When asking the user a question, prefer the platform's blocking question tool if one exists.
+- When asking the user a question, you MUST use the platform's blocking question tool if one exists, e.g. `askQuestion`, `askUserQuestion`, etc.
 
 ### 5. Compile Decision Snapshot
 
