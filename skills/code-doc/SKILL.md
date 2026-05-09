@@ -9,29 +9,29 @@ description: >
 ---
 
 # code-doc
- 
+
 Guidelines for writing documentation comments that are clear, useful, and appropriately
 scoped — regardless of language.
- 
+
 ## Language-specific reference index
- 
+
 Before applying generic guidance below, check whether a language-specific reference file
 exists and load it for additional rules and examples that override or extend the generic ones.
- 
-| Language | Reference file |
-|----------|---------------|
+
+| Language      | Reference file       |
+|---------------|----------------------|
 | Kotlin (KDoc) | `references/kdoc.md` |
- 
+
 If the user's language is not listed, apply the generic guidance only.
  
 ---
- 
+
 ## Generic documentation patterns
- 
+
 These apply to all languages unless overridden by a language-specific reference.
- 
+
 <should>
- 
+
 - **Document the interface, not the implementation.** The comment should give a developer
   everything they need to use a class, function, or module correctly — intent, behaviour,
   parameters, return values, side effects — without requiring them to read the code itself.
@@ -52,10 +52,10 @@ These apply to all languages unless overridden by a language-specific reference.
   callers need to know and exactly what code alone doesn't communicate.
 
 </should>
- 
+
 
 <should-not>
- 
+
 - **Repeat the code verbatim.** A comment that just restates the signature in prose adds
   noise without adding meaning.
 - **Be so long that readers skim or skip it.** Prefer concise, high-signal prose. If detail
@@ -63,4 +63,5 @@ These apply to all languages unless overridden by a language-specific reference.
   clearly secondary.
 - **State the obvious.** Don't document what the name already unambiguously expresses
   unless there is a non-obvious nuance to add.
+
 </should-not>

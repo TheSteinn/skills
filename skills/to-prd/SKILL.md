@@ -5,22 +5,29 @@ description: Turn the current conversation context and Decision Snapshot into a 
 
 This skill takes the current conversation and codebase understanding and produces a PRD.
 
-Do NOT run a broad discovery interview. Synthesize from the current conversation and codebase context. Only ask a brief follow-up if needed to avoid a likely mistake in scope, module selection, or testing recommendations.
+Do NOT run a broad discovery interview. Synthesize from the current conversation and codebase context. Only ask a brief
+follow-up if needed to avoid a likely mistake in scope, module selection, or testing recommendations.
 
 ## Process
 
-1. Explore the repo to understand the current state of the codebase, if you haven't already. Keep exploration under the constraint of the current context - there is no need to explore unrelated modules.
+1. Explore the repo to understand the current state of the codebase, if you haven't already. Keep exploration under the
+   constraint of the current context - there is no need to explore unrelated modules.
 
-2. **Read the Decision Snapshot.** Look for `.planning/decisions-<feature>.md`. If it exists, it is the authoritative source for durable design contracts and architectural decisions. The PRD must align with it.
+2. **Read the Decision Snapshot.** Look for `.planning/decisions-<feature>.md`. If it exists, it is a historical record
+   of the brainstorming session. Draw on it as context, but the PRD is the source of truth — write the PRD in its own
+   words, not by reproducing the Snapshot.
 
-3. Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation.
+3. Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for
+   opportunities to extract deep modules that can be tested in isolation.
 
-A deep module (as opposed to a shallow module) is one which encapsulates a lot of functionality in a simple, testable interface which rarely changes.
+A deep module (as opposed to a shallow module) is one which encapsulates a lot of functionality in a simple, testable
+interface which rarely changes.
 
-If module boundaries or test targets are ambiguous, ask at most 1-2 focused clarification questions to confirm expectations. Otherwise proceed without asking.
+If module boundaries or test targets are ambiguous, ask at most 1-2 focused clarification questions to confirm
+expectations. Otherwise proceed without asking.
 
-
-4. Write the PRD using the template below. Create `./.planning/` if it doesn't exist. Save the PRD as a Markdown file named after the feature and prefixed with `PRD` (e.g. `./.planning/PRD-user-onboarding.md`).
+4. Write the PRD using the template below. Create `./.planning/` if it doesn't exist. Save the PRD as a Markdown file
+   named after the feature and prefixed with `PRD` (e.g. `./.planning/PRD-user-onboarding.md`).
 
 <prd-template>
 
@@ -46,29 +53,31 @@ This list of user stories should be extremely extensive and cover all aspects of
 
 ## Implementation Decisions
 
-A list of implementation decisions that were made. This can include:
+A list of implementation decisions that were made, written in the PRD's own words. This can include:
 
 - The modules that will be built/modified
-- The interfaces of those modules that will be modified
 - Technical clarifications from the developer
 - Architectural decisions
 - Schema changes
 - API contracts
 - Specific interactions
 
-**Contract Fidelity Rule:**
-If a Decision Snapshot exists, reproduce every durable design contract from it exactly in this section. Embed contracts in their natural form (JSON, TypeScript, SQL, OpenAPI, etc.) inside fenced code blocks. Do NOT summarize, paraphrase, or translate a structured contract into prose. The contract in the PRD must be byte-for-byte identical to the contract in the snapshot.
+Write these as natural-language descriptions of what was decided. Code contracts (interfaces, schemas, API shapes)
+should only appear in this section when they were **explicitly agreed** during the design session AND are essential to
+understanding the scope of the feature. When a code contract is included, write it in its natural form inside a fenced
+code block — but do NOT reproduce contracts from the Decision Snapshot byte-for-byte. The PRD is its own document, not a
+copy of the Snapshot.
 
-If there is a conflict between the conversation context and the Decision Snapshot, the Snapshot wins. It represents the confirmed, reconciled design.
-
-Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
+Do NOT include specific file paths or code snippets for implementation details. They may end up being outdated very
+quickly.
 
 ## Testing Decisions
 
 A list of testing decisions that were made. Include:
 
 - A description of what makes a good test (only test external behavior, not implementation details)
-- Which directly affected modules will be tested, or which existing modules need tests because their behavior must change to support the feature
+- Which directly affected modules will be tested, or which existing modules need tests because their behavior must
+  change to support the feature
 - Prior art for the tests (i.e. similar types of tests in the codebase)
 
 ## Out of Scope
@@ -81,7 +90,9 @@ Any further notes about the feature.
 
 </prd-template>
 
-5. **Anti-Leak Validation.** Before saving the PRD, review it against the Decision Snapshot (if one exists) and the conversation context. Ask yourself:
-   - Does the PRD contain any decision or contract that was invalidated or rejected during the design session?
-   - Does the PRD omit any final contract from the Decision Snapshot?
-   - If you find an invalidated decision, remove it. If you find a missing contract, add it.
+5. **Completeness Check.** Before saving the PRD, review it against the Decision Snapshot (if one exists) and the
+   conversation context. Ask yourself:
+    - Does the PRD cover all the decisions that were agreed to — either in user stories or in the Implementation
+      Decisions section?
+    - Are there any decisions from the Snapshot that are missing from the PRD entirely?
+    - If you find a missing decision, add it (in the PRD's own words, not by copying from the Snapshot).
