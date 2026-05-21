@@ -1,6 +1,6 @@
 # Skills
 
-A collection of Claude Code skills for my development workflow, inspired
+A collection of agent skills for my development workflow, inspired
 by [Matt Pocock's skills repo](https://github.com/mattpocock/skills/tree/main).
 
 ## Credits
@@ -16,6 +16,14 @@ a degree, though the eval scripts and handling need work.
 
 `/dg` was adapted from [v1r3n/dinesh-gilfoyle](https://github.com/v1r3n/dinesh-gilfoyle), with the comic panel
 capability removed, and Gradle handling and CVE analysis tightened.
+
+---
+
+## Installation
+
+The [install script](install.sh) will install the skills into the `.agents/skills/` directory. For agents that use a different directory, you can symlink the skills into the correct location.
+
+Alternatively, clone the repo to the appropriate agent skills directory.
 
 ---
 
