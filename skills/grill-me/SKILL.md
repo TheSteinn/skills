@@ -31,12 +31,8 @@ confirmation from me.
 
 **Interaction Rules**
 
-- Ask one question at a time - Do not batch several unrelated questions into one message.
-- Prefer single-select multiple choice - Use single-select when choosing one direction, one priority, or one next step.
-- Use multi-select rarely and intentionally - Use it only for compatible sets such as goals, constraints, non-goals, or
-  success criteria that can all coexist. If prioritization matters, follow up by asking which selected item is primary.
-- When asking the user a question, you MUST use the platform's blocking question tool if one exists, e.g. `askQuestion`,
-  `askUserQuestion`, etc.
+- Ask one question at a time – do not batch several unrelated questions into one message. Wait for feedback on each
+  question before continuing
 
 ### 5. Compile Decision Snapshot
 
