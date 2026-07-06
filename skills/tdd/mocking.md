@@ -1,6 +1,6 @@
 # When to Mock
 
-Mock at **system boundaries** only:
+Mock at **seams** only:
 
 - External APIs (payment, email, etc.)
 - Databases (sometimes - prefer test DB)

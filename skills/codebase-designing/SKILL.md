@@ -107,7 +107,9 @@ Good interfaces make testing natural:
       gateway = create_payment_gateway()
     ```
 
-2. **Return results, don't produce side effects.**
+2. **Return results, don't produce side effects.** Design interfaces to return explicit results by default; only
+   use mutation or side-effect-only commands when that behaviour is inherently the contract and cannot be
+   expressed more clearly as a returned result.
 
     ```
     Testable: Return a result
