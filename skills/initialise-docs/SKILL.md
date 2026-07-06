@@ -11,11 +11,11 @@ refresh or re-scan content that already exists.
 
 ## 0. Dependency check
 
-`grill-with-docs` is a required install — it owns the format specs you write against. Before any scanning or writing:
+`domain-modelling` is a required install — it owns the format specs you write against. Before any scanning or writing:
 
-1. Check the available-skills list for `grill-with-docs`. Not listed → stop: "`initialise-docs` requires the
-   `grill-with-docs` skill (it owns the shared format specs) — install it first."
-2. Resolve `grill-with-docs/references/language-format.md` on disk: as a sibling of this skill's base directory first,
+1. Check the available-skills list for `domain-modelling`. Not listed → stop: "`initialise-docs` requires the
+   `domain-modelling` skill (it owns the shared format specs) — install it first."
+2. Resolve `domain-modelling/references/language-format.md` on disk: as a sibling of this skill's base directory first,
    then project `.claude/skills/`, then user `~/.claude/skills/`. Listed but unresolvable → stop and say the skill is
    installed but its references couldn't be located.
 
