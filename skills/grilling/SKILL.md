@@ -13,8 +13,20 @@ between decisions one-by-one. For each question, provide your recommended answer
 exploring the codebase, explore the codebase instead of asking. When two decisions depend on each other, resolve the
 dependency explicitly and confirm the resolution with the user before moving on.
 
-The grill ends when every branch is resolved or explicitly parked: summarize the resolved decisions and remaining open
-questions, and get the user's explicit confirmation of the shared understanding.
+## Closing the grill
+
+The grill ends when every branch is resolved or explicitly parked. Close by presenting a decision record in chat:
+
+- One entry per topic: the final resolution and a one-line rationale (naming what it replaced, if anything). A topic
+  with multiple positions appears exactly once — superseded positions are collapsed, not listed.
+- Include a contract (interface, schema, API shape) only if one was explicitly proposed and confirmed during the
+  session — never invent one; prose resolutions stay prose.
+- If durable docs were written during the session (glossary terms, ADRs), reference them — don't restate their content.
+- Then list cross-topic dependencies, and any remaining open questions or outstanding items.
+
+Get the user's explicit confirmation of this record. If the user asks to persist it, write it as presented to
+`.planning/decisions-<feature>.md` (creating `.planning/` if needed) — downstream planning skills look for it at that
+path.
 
 <critical>
 - Ask one question at a time — asking multiple questions at once creates cognitive overload.
