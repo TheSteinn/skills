@@ -7,35 +7,42 @@ description: Test-driven development with red-green-refactor loop. Use when user
 
 ## Philosophy
 
-**Core principle**: Tests should verify behavior through public interfaces, not implementation details. Code can change
+**Core principle**: Tests should verify behaviour through public interfaces, not implementation details. Code can change
 entirely; tests shouldn't.
 
 **Good tests** are integration-style: they exercise real code paths through public APIs. They describe _what_ the system
-does, not _how_ it does it. A good test reads like a specification - "user can checkout with valid cart" tells you
+does, not _how_ it does it. A good test reads like a specification – "user can checkout with valid cart" tells you
 exactly what capability exists. These tests survive refactors because they don't care about internal structure.
 
-**Bad tests** are coupled to implementation. They mock internal collaborators, test private methods, or verify behavior
+**Bad tests** are coupled to implementation. They mock internal collaborators, test private methods, or verify behaviour
 through a lower-level mechanism when a stable public interface is available. If persisted state or an external side
 effect is itself the contract, assert that outcome directly. The warning sign: your test breaks when you refactor, but
-behavior hasn't changed. If you rename an internal function and tests fail, those tests were testing implementation, not
-behavior.
+behaviour hasn't changed. If you rename an internal function and tests fail, those tests were testing implementation,
+not
+behaviour.
+
+**Tautological tests** restate the implementation inside the assertion, so they pass by construction and give zero
+confidence. When the expected value is computed the way the code computes it — `expect(add(a, b)).toBe(a + b)`,
+snapshotting a figure you derived by hand the same way the code does, asserting a constant equals itself — the test can
+never disagree with the code: break the code wrong and the assertion breaks wrong with it. The expected value must come
+from an independent source of truth — a known-good literal, a worked example, the spec.
 
 See [tests.md](tests.md) for examples and [mocking.md](mocking.md) for mocking guidelines.
 
 ## Anti-Pattern: Horizontal Slices
 
-**DO NOT write all tests first, then all implementation.** This is "horizontal slicing" - treating RED as "write all
+**DO NOT write all tests first, then all implementation.** This is "horizontal slicing" – treating RED as "write all
 tests" and GREEN as "write all code."
 
 This produces **crap tests**:
 
-- Tests written in bulk test _imagined_ behavior, not _actual_ behavior
+- Tests written in bulk test _imagined_ behavior, not _actual_ behaviour
 - You end up testing the _shape_ of things (data structures, function signatures) rather than user-facing behavior
-- Tests become insensitive to real changes - they pass when behavior breaks, fail when behavior is fine
+- Tests become insensitive to real changes – they pass when behaviour breaks, fail when behaviour is fine
 - You outrun your headlights, committing to test structure before understanding the implementation
 
 **Correct approach**: Vertical slices via tracer bullets. One test → one implementation → repeat. Each test responds to
-what you learned from the previous cycle. Because you just wrote the code, you know exactly what behavior matters and
+what you learned from the previous cycle. Because you just wrote the code, you know exactly what behaviour matters and
 how to verify it.
 
 ```
@@ -60,7 +67,7 @@ Before writing any code:
 - [ ] Confirm with user which behaviors to test (prioritize)
 - [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
 - [ ] Design interfaces for [testability](interface-design.md)
-- [ ] List the behaviors to test (not implementation steps)
+- [ ] List the behaviours to test (not implementation steps)
 - [ ] Get user approval on the plan
 
 Ask: "What should the public interface look like? Which behaviors are most important to test?"
@@ -114,6 +121,7 @@ After all tests pass, look for [refactor candidates](refactoring.md):
 [ ] Test describes behavior, not implementation
 [ ] Test uses public interface only
 [ ] Test would survive internal refactor
+[ ] Expected values are independent literals, not recomputed from the code
 [ ] Code is minimal for this test
 [ ] No speculative features added
 [ ] Interfaces have been documented using the `code-doc` skill

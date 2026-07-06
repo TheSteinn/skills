@@ -74,3 +74,22 @@ NOTE: If persistence is itself the public contract of the component under test,
 asserting on stored state can be correct. Prefer the highest-level stable interface
 that matches the behavior you are trying to verify.
 ```
+
+**Tautological tests**: Expected value restates the implementation, so the test passes by construction.
+
+```
+BAD: Expected value is recomputed the way the code computes it
+
+TEST "calculate total sums line items"
+  items = [{ price: 10 }, { price: 5 }]
+  expected = SUM(items, i -> i.price)
+
+  ASSERT calculate_total(items) == expected
+END
+
+GOOD: Expected value is an independent, known literal
+
+TEST "calculate total sums line items"
+  ASSERT calculate_total([{ price: 10 }, { price: 5 }]) == 15
+END
+```
