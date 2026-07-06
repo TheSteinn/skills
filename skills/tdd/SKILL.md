@@ -19,7 +19,7 @@ shouldn't. A good test reads like a specification — "user can checkout with va
 capability exists — and survives refactors because it doesn't care about internal structure. If persisted state
 or an external side effect is itself the contract, assert that outcome directly.
 
-See [tests.md](tests.md) for examples and [mocking.md](mocking.md) for mocking guidelines.
+See [tests.md](references/tests.md) for examples and [mocking.md](references/mocking.md) for mocking guidelines.
 
 ## Where tests go
 
