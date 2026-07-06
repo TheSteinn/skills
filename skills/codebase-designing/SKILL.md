@@ -1,13 +1,14 @@
 ---
 name: codebase-designing
-description: Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, decide where a seam goes, make code more testable or AI-navigable, or when another skill needs the deep-module vocabulary.
+description: Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, decide where a seam goes, diagnose why code is hard to understand or change, make code more testable or AI-navigable, or when another skill needs the deep-module vocabulary.
 ---
 
 # Codebase Design
 
 Design **deep modules**: a lot of behaviour behind a small interface, placed at a clean seam, testable through that
 interface. Use this language and these principles wherever code is being designed or restructured. The aim is leverage
-for callers, locality for maintainers, and testability for everyone.
+for callers, locality for maintainers, and testability for everyone — all in service of reducing **complexity**:
+keeping the system easy to understand and modify.
 
 ## Glossary
 
@@ -41,6 +42,10 @@ back across N call sites and M tests.
 
 **Locality** — what maintainers get from depth: change, bugs, knowledge, and verification concentrate in one place
 rather than spreading across callers. Fix once, fixed everywhere.
+
+**Complexity** — anything about the structure of a system that makes it hard to understand and modify.
+Symptoms: change amplification, cognitive load, unknown unknowns. Causes: dependencies and obscurity.
+See [complexity.md](references/complexity.md).
 
 ## Deep vs shallow
 
@@ -83,6 +88,9 @@ When designing an interface, ask:
   interface, the module is probably the wrong shape.
 - **One adapter means a hypothetical seam. Two adapters means a real one.** Don't introduce a seam unless something
   actually varies across it.
+- **Judge every design idea by whether it reduces complexity** — does it reduce the amount of information a developer
+  must hold in their head, or make the required information more obvious? For the symptoms and causes of complexity,
+  see [complexity.md](references/complexity.md).
 
 ## Designing for testability
 
@@ -121,6 +129,8 @@ Good interfaces make testing natural:
 - A **Seam** is where a **Module**'s **Interface** lives.
 - An **Adapter** sits at a **Seam** and satisfies the **Interface**.
 - **Depth** produces **Leverage** for callers and **Locality** for maintainers.
+- **Complexity** is what all of the above reduce: **Depth** lowers cognitive load, **Locality** counters change
+  amplification, and obvious **Interfaces** fight obscurity and unknown unknowns.
 
 ## Rejected framings
 
@@ -132,6 +142,9 @@ Good interfaces make testing natural:
 
 ## Going deeper
 
+- **Recognising and diagnosing complexity** — see [complexity.md](references/complexity.md): Ousterhout's definition,
+  the three symptoms (change amplification, cognitive load, unknown unknowns), the two causes (dependencies,
+  obscurity), and the zero-tolerance stance — complexity accumulates incrementally.
 - **Deepening a cluster given its dependencies** — see [deepening.md](references/deepening.md): dependency categories,
   seam discipline, and replace-don't-layer testing.
 - **Exploring alternative interfaces** — see [design-it-twice.md](references/design-it-twice.md): spin up parallel
