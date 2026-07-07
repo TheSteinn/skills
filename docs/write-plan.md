@@ -44,8 +44,10 @@ practice rather than taste:
   buried buy-in gates were skipped about half the time. Those steps aren't slimmed here — they're gone, because they
   live as earlier QRSPI phases with their own invocations and their own review gates.
 
-The cuts are stated at the top of the template reference itself, so a future editor reaching for a "helpful" patterns
-section finds the reasoning before the temptation.
+This record is where that reasoning lives — deliberately not in the template reference itself. The reference is
+loaded into the implementing agent's context at runtime, and a skill doesn't need its own change history to do its
+job; it needs its instructions. A future editor reaching for a "helpful" patterns section should find this record
+before the temptation.
 
 ## Code sketches, reconciled with TDD
 

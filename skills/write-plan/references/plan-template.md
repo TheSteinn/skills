@@ -1,17 +1,5 @@
 # Plan templates
 
-> **Three things from the ancestral V1 template are cut on purpose — do not reintroduce them.**
->
-> - **No "Common Patterns" recipes.** The originals were horizontal, layer-by-layer build orders ("schema → store →
->   business logic → API → UI") — the disease `/structure` exists to cure. Phase order comes from the approved
->   slices, never from a recipe.
-> - **No org-specific machinery.** No thoughts sync, no ticket tooling, no hardcoded `make` targets — success
->   criteria use the project's actual commands, discovered from the project itself.
-> - **No process steps.** Research and alignment live in earlier pipeline phases; the plan records their outcomes and
->   carries no instructions for re-running them.
->
-> These three cuts are the only ones — every other section of the source template carries over.
-
 Two templates: one `plan/index.md` per plan, one `plan/phase-N-<slug>.md` per phase. Reading them, and filling them
 in:
 
