@@ -33,6 +33,18 @@ Alternatively, clone the repo to the appropriate agent skills directory.
 
 ## Skills
 
+### QRSPI pipeline
+
+A port of Dex Horthy's QRSPI workflow — each phase a separate small invocation, reviewed by the human at the cheap
+artifacts.
+
+#### `/research`
+
+Decomposes a task into neutral research questions, then answers them with **task-blind subagents** — researcher
+prompts never contain the task, so the findings describe what the codebase is rather than evidence for the change you
+have in mind. Produces `task.md`, `questions.md`, and a cited, recommendation-free `research.md` in
+`.planning/<feature>/`, ready for the design step to build on.
+
 ### Planning
 
 #### `/grill-me`

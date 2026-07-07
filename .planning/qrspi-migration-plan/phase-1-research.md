@@ -130,13 +130,13 @@ entry describing the skill in the README's existing voice. Do not touch other en
 
 ### Automated verification
 
-- [ ] `test -f skills/research/SKILL.md && test -f skills/research/references/subagent-prompts.md`
-- [ ] `grep -q 'disable-model-invocation: true' skills/research/SKILL.md`
-- [ ] `grep -qi 'no slot for task content' skills/research/references/subagent-prompts.md` (or
+- [x] `test -f skills/research/SKILL.md && test -f skills/research/references/subagent-prompts.md`
+- [x] `grep -q 'disable-model-invocation: true' skills/research/SKILL.md`
+- [x] `grep -qi 'no slot for task content' skills/research/references/subagent-prompts.md` (or
       equivalent firewall comment)
-- [ ] `grep -q '/research' README.md`
-- [ ] `test -f docs/research.md`
-- [ ] `! grep -rn 'EnterWorktree\|to-prd\|orchestrate' skills/research/` (no scope leakage)
+- [x] `grep -q '/research' README.md`
+- [x] `test -f docs/research.md`
+- [x] `! grep -rn 'EnterWorktree\|to-prd\|orchestrate' skills/research/` (no scope leakage)
 
 ### Manual verification
 
