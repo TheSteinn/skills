@@ -124,12 +124,12 @@ entry and any prose pointing at it.
 
 ### Automated verification
 
-- [ ] `test -f skills/implement/SKILL.md && test -f docs/implement.md`
-- [ ] `grep -q 'disable-model-invocation: true' skills/implement/SKILL.md`
-- [ ] `test ! -d skills/orchestrate-plan`
-- [ ] `! grep -rn 'orchestrate-plan' skills/ README.md`
-- [ ] `grep -q 'no git-setup moves\|no branching, no checkout, no worktree' skills/implement/SKILL.md`
-- [ ] `grep -q 'test checkpoint' skills/tdd/SKILL.md`
+- [x] `test -f skills/implement/SKILL.md && test -f docs/implement.md`
+- [x] `grep -q 'disable-model-invocation: true' skills/implement/SKILL.md`
+- [x] `test ! -d skills/orchestrate-plan`
+- [x] `! grep -rn 'orchestrate-plan' skills/ README.md`
+- [x] `grep -q 'no git-setup moves\|no branching, no checkout, no worktree' skills/implement/SKILL.md`
+- [x] `grep -q 'test checkpoint' skills/tdd/SKILL.md`
 
 ### Manual verification
 

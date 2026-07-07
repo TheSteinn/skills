@@ -67,6 +67,14 @@ code sketches as targets (not prescriptions — the failing test still comes fir
 automated and manual checks. Produces `plan/index.md` and per-phase files in `.planning/<feature>/`: the artifact you
 spot-check rather than deep-review, because the deep review already happened at design and structure.
 
+#### `/implement`
+
+Executes the plan phase by phase as a pure orchestrator: each phase goes to a fresh subagent whose prompt starts with
+`/tdd` and contains only that phase's file plus the plan's durable decisions. The orchestrator runs the automated
+success criteria itself, lands **one atomic commit per completed phase**, pauses for your manual verification steps,
+and STOPs with a structured report — rather than improvising — whenever reality contradicts the plan. Assumes you have
+already prepared the branch or worktree: it makes no git-setup moves of its own.
+
 ### Planning
 
 #### `/grill-me`
@@ -90,13 +98,6 @@ use plain `/grill-me` when it shouldn't.
 Runs the red-green-refactor loop for a given phase or feature. Emphasises testing behaviour through public interfaces
 rather than implementation details, and strictly enforces vertical slicing — one test, one implementation, repeat.
 Avoids horizontal slicing (writing all tests before writing any code).
-
-#### `/orchestrate-plan`
-
-Implements a multi-phase plan by delegation: the session acts purely as an orchestrator, handing each phase to a
-dedicated subagent that runs `/tdd`, verifying acceptance criteria as phases complete, and re-delegating when a
-criterion fails. If a phase fails twice, it stops and hands back to you to course-correct. An alternative to driving
-`/tdd` phase by phase yourself.
 
 ### Domain documentation
 
@@ -145,7 +146,7 @@ The pipeline runs from idea to implementation:
 
 ```
 /grill-me ───────────┐
-                     ├──→  [/to-prd]  ──→  /to-plan  ──→  /tdd  or  /orchestrate-plan
+                     ├──→  [/to-prd]  ──→  /to-plan  ──→  /tdd
 /grill-with-docs ────┘
 ```
 
@@ -176,11 +177,9 @@ Snapshot directly into `/to-plan`.
 Break the PRD (or Snapshot) into a phased plan of tracer bullet vertical slices. Each phase should be thin,
 end-to-end, and independently verifiable — no big-bang phases.
 
-### 4. `/tdd` or `/orchestrate-plan` — implement phase by phase
+### 4. `/tdd` — implement phase by phase
 
-Take each phase through a red-green-refactor loop with `/tdd` — one test at a time, one implementation at a time. Or
-hand the whole plan to `/orchestrate-plan` and let it delegate each phase to a `/tdd` subagent while it tracks
-acceptance criteria.
+Take each phase through a red-green-refactor loop with `/tdd` — one test at a time, one implementation at a time.
 
 Along the way: `/code-doc` keeps doc comments honest (it's composed into `/tdd`), and `/dg` reviews the result with
 maximum prejudice.

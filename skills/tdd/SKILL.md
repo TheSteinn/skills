@@ -24,10 +24,11 @@ See [tests.md](references/tests.md) for examples and [mocking.md](references/moc
 ## Where tests go
 
 Tests live at **seams** — used exactly as the `codebase-designing` glossary defines the term. Seams are a design
-decision, so they should already exist when the loop starts: take them from the plan, design docs, or the
-conversation. When they aren't established, ask the user — "What's the public interface, and which seams should
-we test?" — rather than inventing them. When no user is reachable (delegated runs), derive the seams from the
-phase scope and durable decisions, state them explicitly before the first test, and include them in your report.
+decision, so they should already exist when the loop starts: take them from the phase document's test checkpoint,
+the design doc's patterns to follow, or the conversation. When they aren't established, ask the user — "What's the
+public interface, and which seams should we test?" — rather than inventing them. When no user is reachable
+(delegated runs), derive the seams from the phase scope and durable decisions, state them explicitly before the
+first test, and include them in your report.
 
 You can't test everything. Before the first test, list the behaviours to cover and their priority — critical
 paths and complex logic first, not every edge case. Take priorities from the plan when it has them; otherwise
