@@ -16,10 +16,9 @@ subagent prompt, and report in this skill must use. Use its terms exactly; avoid
 
 ### 1. Orient, then explore
 
-Orient the way the repo's `CLAUDE.md` pointer block directs (written by the `initialise-docs` skill): read
-`LANGUAGE.md` — or `CONTEXT-MAP.md` in a multi-context repo, which indexes each module's glossary — and the relevant
-ADRs in `docs/adr/`, including module-scoped `<module>/docs/adr/`. The domain language gives names to good seams; ADRs
-record decisions this skill should not re-litigate. If those files don't exist, proceed silently.
+Orient before exploring: read the project's domain glossary (`LANGUAGE.md`) and the ADRs for the areas you'll walk,
+wherever the project keeps them. The domain language gives names to good seams; ADRs record decisions this skill
+should not re-litigate. If the project documents neither, proceed silently.
 
 Then delegate the walk to general-purpose subagents — one for a small codebase, fanned out by area for a large one.
 Don't use `Explore` agents: they locate code from excerpts, and judging depth means reading whole interfaces against
