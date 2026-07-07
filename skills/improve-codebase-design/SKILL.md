@@ -78,4 +78,5 @@ To explore alternative interfaces for the deepened module, use `codebase-designi
 (parallel sub-agent designs compared on depth, locality, and seam placement).
 
 When the grill closes, `grilling` presents its decision record and can persist it to `.planning/decisions-<feature>.md`
-— from there, `/to-plan` turns the chosen deepening into a phased plan and `/tdd` drives the implementation.
+— from there, the QRSPI pipeline takes over: run `/research` with the chosen deepening as the task, and bring the
+persisted decision record into `/design` as already-resolved input.

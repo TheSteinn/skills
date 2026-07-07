@@ -59,6 +59,14 @@ it touches, named for its observable behaviour, and carrying a test checkpoint �
 you, merging and splitting until it's right. Produces `structure.md` (~2 pages) in `.planning/<feature>/`: the second
 alignment gate, at header-file altitude — order, checkpoints, and signature sketches, never implementation.
 
+#### `/write-plan`
+
+Expands the approved structure into the tactical plan the implementing agent executes — one plan phase per approved
+slice, written as an index plus **self-contained phase files** that restate the context each implementer needs, show
+code sketches as targets (not prescriptions — the failing test still comes first), and split success criteria into
+automated and manual checks. Produces `plan/index.md` and per-phase files in `.planning/<feature>/`: the artifact you
+spot-check rather than deep-review, because the deep review already happened at design and structure.
+
 ### Planning
 
 #### `/grill-me`
@@ -74,12 +82,6 @@ plan against `LANGUAGE.md`, sharpens fuzzy terminology the moment it appears, wr
 inline — at peak attention, never batched at the end — and offers an ADR when a decision genuinely warrants one (hard
 to reverse, surprising without context, a real trade-off). Use it when the grill should leave durable docs behind;
 use plain `/grill-me` when it shouldn't.
-
-#### `/to-plan`
-
-Breaks a PRD or Decision Snapshot into a phased implementation plan using **tracer bullet** vertical slices. Each
-phase is a thin, end-to-end slice that cuts through all relevant integration layers and is independently demoable or
-verifiable. Produces a plan index and per-phase documents in `.planning/`.
 
 ### Implementation
 

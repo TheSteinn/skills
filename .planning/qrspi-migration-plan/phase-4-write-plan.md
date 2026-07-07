@@ -170,14 +170,14 @@ adjust any Planning-section prose that names `to-plan` as the pipeline's plan st
 
 ### Automated verification
 
-- [ ] `test -f skills/write-plan/SKILL.md && test -f skills/write-plan/references/plan-template.md && test -f docs/write-plan.md`
-- [ ] `grep -q 'disable-model-invocation: true' skills/write-plan/SKILL.md`
-- [ ] `test ! -d skills/to-plan`
-- [ ] `! grep -rn 'to-plan' skills/` (in particular, `improve-codebase-design` no longer
+- [x] `test -f skills/write-plan/SKILL.md && test -f skills/write-plan/references/plan-template.md && test -f docs/write-plan.md`
+- [x] `grep -q 'disable-model-invocation: true' skills/write-plan/SKILL.md`
+- [x] `test ! -d skills/to-plan`
+- [x] `! grep -rn 'to-plan' skills/` (in particular, `improve-codebase-design` no longer
       references it)
-- [ ] `grep -qi 'targets, not prescriptions' skills/write-plan/references/plan-template.md`
-- [ ] `grep -qi 'Testing strategy' skills/write-plan/references/plan-template.md && grep -qi 'Key discoveries' skills/write-plan/references/plan-template.md` (the V1 sections survived adaptation)
-- [ ] `grep -q '/write-plan' README.md && ! grep -q '#### \`/to-plan\`' README.md`
+- [x] `grep -qi 'targets, not prescriptions' skills/write-plan/references/plan-template.md`
+- [x] `grep -qi 'Testing strategy' skills/write-plan/references/plan-template.md && grep -qi 'Key discoveries' skills/write-plan/references/plan-template.md` (the V1 sections survived adaptation)
+- [x] `grep -q '/write-plan' README.md && ! grep -q '#### \`/to-plan\`' README.md`
 
 ### Manual verification
 
