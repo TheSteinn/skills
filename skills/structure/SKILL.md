@@ -1,6 +1,6 @@
 ---
 name: structure
-description: QRSPI step 3 — slice the approved design into ordered vertical slices with test checkpoints. Produces structure.md (~2 pages), the second human alignment gate.
+description: Step 3 — slice the approved design into ordered vertical slices with test checkpoints. Produces structure.md (~2 pages), the second human alignment gate.
 disable-model-invocation: true
 ---
 

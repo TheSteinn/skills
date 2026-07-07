@@ -1,6 +1,6 @@
 ---
 name: research
-description: QRSPI step 1 — decompose a task into neutral research questions, then answer them with task-blind subagents. Produces task.md, questions.md, and research.md (facts with file:line citations, no recommendations) in .planning/<feature>/.
+description: Step 1 — decompose a task into neutral research questions, then answer them with task-blind subagents. Produces task.md, questions.md, and research.md (facts with file:line citations, no recommendations) in .planning/<feature>/.
 disable-model-invocation: true
 ---
 

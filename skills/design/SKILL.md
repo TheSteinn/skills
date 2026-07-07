@@ -1,6 +1,6 @@
 ---
 name: design
-description: QRSPI step 2 — brain-dump a ~200-line design from task + research, then grill the open questions until resolved. Produces design.md, the pipeline's main human alignment gate.
+description: Step 2 — brain-dump a ~200-line design from task + research, then grill the open questions until resolved. Produces design.md, the pipeline's main human alignment gate.
 disable-model-invocation: true
 ---
 

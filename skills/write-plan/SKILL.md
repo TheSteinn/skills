@@ -1,6 +1,6 @@
 ---
 name: write-plan
-description: QRSPI step 4 — expand the approved structure into a tactical plan for the implementing agent - an index plus one self-contained file per phase, with code sketches and success criteria. Humans spot-check; deep review already happened.
+description: Step 4 — expand the approved structure into a tactical plan for the implementing agent - an index plus one self-contained file per phase, with code sketches and success criteria. Humans spot-check; deep review already happened.
 disable-model-invocation: true
 ---
 

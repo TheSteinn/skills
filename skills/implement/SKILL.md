@@ -1,6 +1,6 @@
 ---
 name: implement
-description: QRSPI step 5 — orchestrate the plan phase by phase, delegating each phase to a TDD subagent and committing after each completed phase. Assumes you have already prepared the branch or worktree.
+description: Step 5 — orchestrate the plan phase by phase, delegating each phase to a TDD subagent and committing after each completed phase. Assumes you have already prepared the branch or worktree.
 disable-model-invocation: true
 ---
 

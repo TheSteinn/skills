@@ -4,7 +4,7 @@ A collection of agent skills for a structured development workflow — from a ra
 deep-reviewed design, to test-driven implementation and a pull request. Supporting skills cover domain documentation,
 doc comments, and code review.
 
-The heart of the repo is the **QRSPI pipeline** — Question → Research → Design → Structure → Plan → Implement → PR,
+The heart of the repo is the **workflow pipeline** — Question → Research → Design → Structure → Plan → Implement → PR,
 run as six separate invocations. Its economics are the point: you deep-review the design, the structure, and the code
 at PR — never the long plan, which is written for the implementing agent and only spot-checked. Each run's artifacts
 live in `.planning/<feature>/`, so every phase can start from a fresh session and rebuild from disk.
@@ -13,11 +13,11 @@ live in `.planning/<feature>/`, so every phase can start from a fresh session an
 
 This repo is a collection of skills inspired by and adapted from the following creators:
 
-- **[Dex Horthy](https://github.com/dexhorthy) / HumanLayer** — the QRSPI workflow, as written up in
-  [From RPI to QRSPI](https://alexlavaee.me/blog/from-rpi-to-qrspi/), is the origin of the six pipeline skills
+- **[Dex Horthy](https://github.com/dexhorthy) / HumanLayer** — the workflow he referred to as RPI and later QRSPI is
+  the origin of the six pipeline skills
 - **[Matt Pocock](https://github.com/mattpocock)** — his [skills repo](https://github.com/mattpocock/skills) is the
   origin of `/grill-me`, `/tdd`, and this repo's original planning pipeline (the since-retired `/to-prd`, whose
-  Decision Snapshot → PRD → plan → orchestrate flow the QRSPI pipeline replaced), and of the domain-docs approach
+  Decision Snapshot → PRD → plan → orchestrate flow the workflow pipeline replaced), and of the domain-docs approach
   (`LANGUAGE.md`, ADRs) that `/grill-with-docs` and `/initialise-docs` build on
 - **[Anthropic](https://github.com/anthropics/skills)** — `/skill-creator`
 - **[v1r3n](https://github.com/v1r3n/dinesh-gilfoyle)** — `/dg`
@@ -40,11 +40,11 @@ Alternatively, clone the repo to the appropriate agent skills directory.
 
 ## Skills
 
-### QRSPI pipeline
+### Workflow pipeline
 
-A port of Dex Horthy's QRSPI workflow — each phase a separate small invocation, reviewed by the human at the cheap
-artifacts. There is no dispatcher: a phase runs because you invoke it, and each one consumes whatever upstream
-artifacts exist in `.planning/<feature>/`.
+A port of the workflow described by Dex Horthy at a high-level in several conferences and podcasts — each phase is a
+separate small invocation, reviewed by the human at the "cheap" artifacts. There is no dispatcher: a phase runs because
+you invoke it, and each one consumes whatever upstream artifacts exist in `.planning/<feature>/`.
 
 #### `/research`
 

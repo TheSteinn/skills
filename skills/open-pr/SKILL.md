@@ -1,6 +1,6 @@
 ---
 name: open-pr
-description: QRSPI step 6 — open a pull request grounded in the design doc, putting the "why" beside the diff. Ends with the one non-negotiable - the human reads the code.
+description: Step 6 — open a pull request grounded in the design doc, putting the "why" beside the diff. Ends with the one non-negotiable - the human reads the code.
 disable-model-invocation: true
 ---
 
