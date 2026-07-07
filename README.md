@@ -52,6 +52,13 @@ questions — from `task.md` and `research.md`, then **grills the open questions
 explicitly parked, writing resolutions straight into the document as they land. Produces `design.md` in
 `.planning/<feature>/`: the pipeline's main alignment gate, deep-reviewed by you before any code exists.
 
+#### `/structure`
+
+Slices the approved design into ordered **tracer-bullet vertical slices** — each cutting end-to-end through the layers
+it touches, named for its observable behaviour, and carrying a test checkpoint — then reviews the granularity with
+you, merging and splitting until it's right. Produces `structure.md` (~2 pages) in `.planning/<feature>/`: the second
+alignment gate, at header-file altitude — order, checkpoints, and signature sketches, never implementation.
+
 ### Planning
 
 #### `/grill-me`

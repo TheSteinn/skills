@@ -86,10 +86,10 @@ Add `#### /structure` under the QRSPI pipeline section. No other README changes.
 
 ### Automated verification
 
-- [ ] `test -f skills/structure/SKILL.md && test -f docs/structure.md`
-- [ ] `grep -q 'disable-model-invocation: true' skills/structure/SKILL.md`
-- [ ] `grep -qi 'test checkpoint' skills/structure/SKILL.md`
-- [ ] `grep -q '/structure' README.md`
+- [x] `test -f skills/structure/SKILL.md && test -f docs/structure.md`
+- [x] `grep -q 'disable-model-invocation: true' skills/structure/SKILL.md`
+- [x] `grep -qi 'test checkpoint' skills/structure/SKILL.md`
+- [x] `grep -q '/structure' README.md`
 
 ### Manual verification
 
