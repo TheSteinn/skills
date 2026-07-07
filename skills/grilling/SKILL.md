@@ -26,7 +26,8 @@ The grill ends when every branch is resolved or explicitly parked. Close by pres
 
 Get the user's explicit confirmation of this record. If the user asks to persist it, write it as presented to
 `.planning/decisions-<feature>.md` (creating `.planning/` if needed) — downstream planning skills look for it at that
-path.
+path. If the host workflow that invoked the grill names its own destination for the record (as `/design` does with
+`design.md`'s Resolved decisions section), write it there instead — no separate decisions file.
 
 <critical>
 - Ask one question at a time — asking multiple questions at once creates cognitive overload.

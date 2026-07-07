@@ -12,8 +12,8 @@ and implement it phase by phase. Each skill works standalone, but they're design
 This repo is a collection of skills inspired by and adapted from the following creators:
 
 - **[Matt Pocock](https://github.com/mattpocock)** — his [skills repo](https://github.com/mattpocock/skills) is the
-  origin of the planning pipeline (`/grill-me`, `/to-prd`, `/tdd`) and of the domain-docs approach (`LANGUAGE.md`,
-  ADRs) that `/grill-with-docs` and `/initialise-docs` build on
+  origin of the planning pipeline (`/grill-me`, `/tdd`, and the since-retired `/to-prd`) and of the domain-docs
+  approach (`LANGUAGE.md`, ADRs) that `/grill-with-docs` and `/initialise-docs` build on
 - **[Anthropic](https://github.com/anthropics/skills)** — `/skill-creator`
 - **[v1r3n](https://github.com/v1r3n/dinesh-gilfoyle)** — `/dg`
 
@@ -45,6 +45,13 @@ prompts never contain the task, so the findings describe what the codebase is ra
 have in mind. Produces `task.md`, `questions.md`, and a cited, recommendation-free `research.md` in
 `.planning/<feature>/`, ready for the design step to build on.
 
+#### `/design`
+
+Brain-dumps a ~200-line design — current state, desired end state, patterns to follow, resolved decisions, open
+questions — from `task.md` and `research.md`, then **grills the open questions** until every branch is resolved or
+explicitly parked, writing resolutions straight into the document as they land. Produces `design.md` in
+`.planning/<feature>/`: the pipeline's main alignment gate, deep-reviewed by you before any code exists.
+
 ### Planning
 
 #### `/grill-me`
@@ -60,12 +67,6 @@ plan against `LANGUAGE.md`, sharpens fuzzy terminology the moment it appears, wr
 inline — at peak attention, never batched at the end — and offers an ADR when a decision genuinely warrants one (hard
 to reverse, surprising without context, a real trade-off). Use it when the grill should leave durable docs behind;
 use plain `/grill-me` when it shouldn't.
-
-#### `/to-prd`
-
-Turns conversation context and a Decision Snapshot into a formal PRD saved to `.planning/`. Best for larger features
-that will be broken into multiple plans, or when a standalone requirements document is needed for stakeholders. Small,
-well-defined changes can skip this step and go straight to `/to-plan`.
 
 #### `/to-plan`
 

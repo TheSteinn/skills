@@ -122,13 +122,13 @@ since-retired `/to-prd`)…"). Leave `to-plan`'s README entry alone (dies in pha
 
 ### Automated verification
 
-- [ ] `test -f skills/design/SKILL.md && test -f docs/design.md`
-- [ ] `grep -q 'disable-model-invocation: true' skills/design/SKILL.md`
-- [ ] `test ! -d skills/to-prd`
-- [ ] `! grep -rn 'to-prd' skills/` (no skill references the deleted skill; README credits may
+- [x] `test -f skills/design/SKILL.md && test -f docs/design.md`
+- [x] `grep -q 'disable-model-invocation: true' skills/design/SKILL.md`
+- [x] `test ! -d skills/to-prd`
+- [x] `! grep -rn 'to-prd' skills/` (no skill references the deleted skill; README credits may
       mention it historically)
-- [ ] `grep -q 'design.md' skills/grilling/SKILL.md` (the new destination sentence landed)
-- [ ] `grep -q '/design' README.md && ! grep -q '#### \`/to-prd\`' README.md`
+- [x] `grep -q 'design.md' skills/grilling/SKILL.md` (the new destination sentence landed)
+- [x] `grep -q '/design' README.md && ! grep -q '#### \`/to-prd\`' README.md`
 
 ### Manual verification
 
