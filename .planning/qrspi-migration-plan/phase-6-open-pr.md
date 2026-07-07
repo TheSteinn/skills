@@ -108,11 +108,11 @@ edits noted):
 
 ### Automated verification
 
-- [ ] `test -f skills/open-pr/SKILL.md && test -f docs/open-pr.md`
-- [ ] `grep -q 'disable-model-invocation: true' skills/open-pr/SKILL.md`
-- [ ] `grep -q 'QRSPI' README.md && grep -q 'HumanLayer' README.md`
-- [ ] Sweep greps above return only the documented acceptable hits.
-- [ ] Scratch-home install lists `research design structure write-plan implement open-pr` and
+- [x] `test -f skills/open-pr/SKILL.md && test -f docs/open-pr.md`
+- [x] `grep -q 'disable-model-invocation: true' skills/open-pr/SKILL.md`
+- [x] `grep -q 'QRSPI' README.md && grep -q 'HumanLayer' README.md`
+- [x] Sweep greps above return only the documented acceptable hits.
+- [x] Scratch-home install lists `research design structure write-plan implement open-pr` and
       none of the three retired skills.
 
 ### Manual verification

@@ -34,7 +34,8 @@ The interview core is kept essentially verbatim — it's the whole reason the sk
 - **The Decision Snapshot** (step 5). After confirmation, the session compiles a snapshot to
   `.planning/decisions-<feature>.md`: a *historical record of the brainstorm*, explicitly non-authoritative —
   downstream PRD/plan documents are the source of truth, and divergence during implementation is accepted and noted
-  rather than treated as a violation. This is what feeds `/to-prd` and `/to-plan` without re-deriving the session.
+  rather than treated as a violation. This is what fed `/to-prd` and `/to-plan` (both since retired) without
+  re-deriving the session; today the QRSPI pipeline consumes the persisted record the same way.
   This implementation outputs what is essentially a handover document for the same or next agent, so that when moving
   onto PRD/Plan/implementation, the exact decisions are available in a persisted file, not floating within the context
   window.
