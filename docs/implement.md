@@ -15,14 +15,19 @@ Four things carry over from the retired skill essentially intact:
   never writing code itself. Every subagent prompt starts with "/tdd", which `orchestrate-plan` already mandated.
 - **Complete encapsulation.** `orchestrate-plan` required each subagent to have "a complete encapsulation of the work
   they need to complete, the scope, and necessary context". `/implement` keeps the requirement and makes it
-  mechanical: the prompt is the full phase file plus the plan's durable decisions, nothing else — possible now because
-  `/write-plan` produces self-contained phase files by construction. What was a judgment call about assembling context
-  becomes a defect check: a phase file that isn't self-contained is a plan bug to STOP on and report, not a gap for
-  the orchestrator to quietly fill.
+  mechanical: a fixed prompt template that hands the subagent two paths — `plan/index.md` and its one phase file —
+  with an instruction to read both fully, plus a `<critical>` element pinning it to its own phase. Paths instead of
+  pasted text give the subagent persisted memory: when its context degrades mid-phase, the files are still on disk to
+  re-read. The durable decisions travel inside the index it reads — possible because `/write-plan` builds plans to
+  exactly this contract: an agent given only the index and one phase file can implement the phase. What was a
+  judgment call about assembling context becomes a defect check, with sequencing carved out: building on earlier
+  phases' committed work is normal order-of-operations, but a phase file whose *text* can't be understood from the
+  index and itself is a plan bug to STOP on and report, not a gap for the orchestrator to quietly fill.
 - **Acceptance-criteria checking.** When a subagent reports done, the orchestrator checks the plan's criteria and
   ticks them off in the plan document itself; a failed criterion is delegated back, and a subagent that "contradicted
   or violated a durable architectural/design decision … has failed its task" regardless of otherwise green results.
-  `/implement` sharpens the verb — run the automated commands yourself — but the loop is the same.
+  `/implement` sharpens the verb and doubles the run — the subagent executes its phase's automated criteria before
+  reporting, and the orchestrator re-runs them itself, trust but verify — but the loop is the same.
 - **Two-strikes escalation.** "If a subagent fails twice for any one phase, cancel the orchestration and respond back
   to the human in the loop to course-correct." Carried whole: two failures on one phase still end the run and hand
   control back to the user.
@@ -55,10 +60,19 @@ QRSPI's Implement phase says little about how the code actually gets written or 
 silence. The plan feeds the loop deliberately: each phase file carries a test checkpoint and split success criteria,
 and `tdd` now names the phase document as a source of seams.
 
-## The STOP-and-report mismatch template is V1's, revived
+## The mismatch protocol is V1's, split across the two roles
 
-V1 `implement_plan`'s best part was its refusal to execute blindly: on a plan-reality mismatch the agent must "STOP
-and think deeply about why the plan can't be followed" and emit a fixed report — Issue in Phase N / Expected / Found /
-Why this matters / How should I proceed? `orchestrate-plan` had no equivalent, leaving mismatch handling to the
-model's judgment. `/implement` inherits the template verbatim in spirit, extended one step for the orchestration
-setting: the orchestrator neither improvises around a mismatch nor lets a subagent improvise around one.
+V1 `implement_plan`'s best part was its refusal to be robotic in either direction. It would not execute blindly: on a
+real mismatch the agent must "STOP and think deeply about why the plan can't be followed" and emit a fixed report —
+Issue in Phase N / Expected / Found / Why this matters / How should I proceed? And it would not stall on trivia
+either: "the plan is your guide, but your judgment matters too" — follow the plan's intent while adapting to what you
+find. `orchestrate-plan` had neither half, leaving mismatch handling to the model's judgment. `/implement` adopts
+both and gives each to the role it fits. The subagent inherits the philosophy: minor mismatches — a moved file, a
+renamed symbol, a sketch that doesn't compile as written — are adapted around with judgment and reported, never
+silently absorbed and never stopped on; anything that would change a seam or the design is beyond adaptation, so the
+subagent stops and reports instead of implementing it. The orchestrator inherits the STOP, widened into a three-way
+triage of every reported mismatch: **hard stop** — the plan is irreconcilable with the codebase, so the orchestration
+ends with V1's report template, verbatim in spirit, and the fix goes back up the pipeline; **soft stop** — the plan
+holds but the adaptation deserves a human look, so the user confirms before the next phase starts; **silent
+proceed** — the adaptation is minor, neither seam nor design change, so it is noted and named in the final summary's
+deviations.

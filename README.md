@@ -70,10 +70,12 @@ spot-check rather than deep-review, because the deep review already happened at 
 #### `/implement`
 
 Executes the plan phase by phase as a pure orchestrator: each phase goes to a fresh subagent whose prompt starts with
-`/tdd` and contains only that phase's file plus the plan's durable decisions. The orchestrator runs the automated
-success criteria itself, lands **one atomic commit per completed phase**, pauses for your manual verification steps,
-and STOPs with a structured report — rather than improvising — whenever reality contradicts the plan. Assumes you have
-already prepared the branch or worktree: it makes no git-setup moves of its own.
+`/tdd` and hands it two file paths — the plan index and its own phase file — as persisted memory, hard-scoped to
+exactly that phase. Subagents follow the plan's intent while adapting to what they find, reporting every mismatch; the
+orchestrator triages each one — a hard stop with a structured report, a soft stop for your confirmation, or a noted
+deviation. It re-runs the automated success criteria itself, lands **one atomic commit per completed phase**, and
+pauses for your manual verification steps. Assumes you have already prepared the branch or worktree: it makes no
+git-setup moves of its own.
 
 ### Planning
 
