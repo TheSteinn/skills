@@ -24,9 +24,9 @@ Then load the supporting skills — actually invoke each one with the Skill tool
 nothing:
 
 - Invoke `codebase-designing` — its vocabulary (module, interface, seam, depth) is the language for everything below.
-- Check whether the project keeps domain docs: look for `LANGUAGE.md` or `CONTEXT-MAP.md`. If either exists, invoke
-  `domain-modelling` so terms and ADR-worthy decisions are captured as they crystallise. If neither exists, tell the
-  user the project keeps no domain docs and continue without it — never skip the check silently.
+- Invoke `domain-modelling` so terms and ADR-worthy decisions are captured as they crystallise. Invoke it whether or
+  not domain docs exist: it orients on `LANGUAGE.md`/`CONTEXT-MAP.md` when present, proceeds silently when absent, and
+  creates `LANGUAGE.md` lazily on the first resolved term — so a project without domain docs starts keeping them here.
 
 ## 2. Brain-dump the draft
 
