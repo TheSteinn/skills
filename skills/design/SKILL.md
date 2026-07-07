@@ -20,9 +20,13 @@ it; otherwise ask the user. Read `task.md` and `research.md` fully. Either may b
 - Without `task.md`, create the directory and capture the task from the invocation or conversation into `task.md`
   before designing — later phases read that file, not this conversation.
 
-Invoke the `codebase-designing` skill — its vocabulary (module, interface, seam, depth) is the language for everything
-below. If the project keeps domain docs (a `LANGUAGE.md` or `CONTEXT-MAP.md` exists), also invoke `domain-modelling` so
-terms and ADR-worthy decisions are captured as they crystallise.
+Then load the supporting skills — actually invoke each one with the Skill tool; mentioning a skill in prose loads
+nothing:
+
+- Invoke `codebase-designing` — its vocabulary (module, interface, seam, depth) is the language for everything below.
+- Check whether the project keeps domain docs: look for `LANGUAGE.md` or `CONTEXT-MAP.md`. If either exists, invoke
+  `domain-modelling` so terms and ADR-worthy decisions are captured as they crystallise. If neither exists, tell the
+  user the project keeps no domain docs and continue without it — never skip the check silently.
 
 ## 2. Brain-dump the draft
 
