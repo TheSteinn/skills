@@ -1,9 +1,5 @@
 # Design: Restructuring the skills repo around QRSPI
 
-Sources: `.planning/qrspi-understanding.md` (primary), the five `humanlayer-*.md` V1 analyses,
-and the current `skills/` inventory. Status: **open questions resolved with Codey — awaiting
-design sign-off**.
-
 ## 1. Current state
 
 The repo's core pipeline is `grill(-me|-with-docs)` → Decision Snapshot → `to-prd` → `to-plan` →
