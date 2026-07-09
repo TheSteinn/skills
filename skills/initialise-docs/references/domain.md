@@ -11,7 +11,8 @@ How skills and agents should consume this repo's domain documentation.
   `<module>/docs/adr/` for context-scoped decisions.
 
 If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them
-upfront. The producer skill (`/grill-with-docs`) creates them lazily when terms or decisions actually get resolved.
+upfront. Producer skills (`/grill-with-docs`, or any skill maintaining the domain model) create them lazily when
+terms or decisions actually get resolved.
 
 ## File structure
 
