@@ -10,14 +10,16 @@ finding.
 
 First, discover the rule sources without spending your own context on the search. Determine the repo root — the
 directory the diff command below targets — then spawn one exploration sub-agent with the Agent tool
-(`explore` type, if you are Claude use model `haiku`), substituting the root for <repo-root> in exactly this prompt:
-
+- Type: `explore`
+- Model (if and only if you are Claude): `haiku`
+substituting the root for <repo-root> in exactly this prompt:
+<explore-subagent-template>
   In the repository at <repo-root>, report which of these files exist — paths only, no file contents, no
   commentary: CLAUDE.md and AGENTS.md at the repo root; any root-level file named like CONTRIBUTING,
   CODING_STANDARDS, or STYLE (any case, any extension); and, looking only inside the root docs/ directory, any
   file whose name resembles those (contributing, coding standards, style, code-style, conventions). Search
   nowhere else and stop after these checks. If none exist, reply with exactly: NONE
-
+</explore-subagent-template>
 If the explorer reports NONE, skip this review: the entire return is exactly the SKIPPED sentinel below, with
 reason `no documented standards`.
 
