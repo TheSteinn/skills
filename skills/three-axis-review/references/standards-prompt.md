@@ -10,7 +10,7 @@ finding.
 
 First, discover the rule sources without spending your own context on the search. Determine the repo root — the
 directory the diff command below targets — then spawn one exploration sub-agent with the Agent tool
-(`general-purpose` type, model `haiku`), substituting the root for <repo-root> in exactly this prompt:
+(`explore` type, if you are Claude use model `haiku`), substituting the root for <repo-root> in exactly this prompt:
 
   In the repository at <repo-root>, report which of these files exist — paths only, no file contents, no
   commentary: CLAUDE.md and AGENTS.md at the repo root; any root-level file named like CONTRIBUTING,
