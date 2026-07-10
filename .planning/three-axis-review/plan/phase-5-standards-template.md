@@ -102,29 +102,35 @@ cite line for this axis: name the rule's file and quote the breaching hunk.
 
 ### Automated verification
 
-- [ ] Placeholder set is exact:
+- [x] Placeholder set is exact:
       `grep -oE '\{[A-Z_]+\}' skills/three-axis-review/references/standards-prompt.md | sort -u` prints exactly
       `{COMMIT_LIST}`, `{DIFF_CMD}`, `{LINT_CONFIG_FILENAMES}`, `{RETURN_CONTRACT}`.
-- [ ] The explorer prompt is static and closed: it names the full candidate set, contains no `{CAPS}`
+- [x] The explorer prompt is static and closed: it names the full candidate set, contains no `{CAPS}`
       placeholders, and carries the stopping rule:
       `grep -q 'stop after these checks' skills/three-axis-review/references/standards-prompt.md`.
-- [ ] The skip sentinel wiring is present: `grep -q 'no documented standards' skills/three-axis-review/references/standards-prompt.md`.
-- [ ] No first person and no dead concepts:
+- [x] The skip sentinel wiring is present: `grep -q 'no documented standards' skills/three-axis-review/references/standards-prompt.md`.
+- [x] No first person and no dead concepts:
       `grep -inE '\b(i|we|our|let'"'"'s)\b' skills/three-axis-review/references/standards-prompt.md` and
       `grep -inE 'PRD|word cap|issue-tracker\.md' skills/three-axis-review/references/standards-prompt.md` find
       nothing.
-- [ ] **Harness run A — positive case, real repo (read-only)**: use the last two commits in
-      `/Users/codey.byrne/dev/kotlin.applications` (user decision 2026-07-10: `HEAD~2...HEAD`, non-empty diff).
-      Fill: `{DIFF_CMD}` = `git -C /Users/codey.byrne/dev/kotlin.applications diff HEAD~2...HEAD`,
-      `{COMMIT_LIST}` = pasted `git -C ... log HEAD~2..HEAD --oneline`, `{LINT_CONFIG_FILENAMES}` = the config
-      filenames actually present at that repo's root (at minimum `.editorconfig`), `{RETURN_CONTRACT}` = pasted
-      contract. Spawn one `general-purpose` agent with the filled prompt. Accept iff: the agent delegated
-      discovery to a haiku explorer (visible in its report or transcript); discovery found at least `CLAUDE.md`
-      and `AGENTS.md`; and the return passes Contract C — findings whose cites name a rule file and quote a hunk,
-      blockers first, or exactly `NO FINDINGS: <one line>`. The run must not write to that repo.
-- [ ] **Harness run B — skip case, bare fixture**: scratch repo in `$TMPDIR` with no standards docs and a small
-      two-commit diff; fill with `{LINT_CONFIG_FILENAMES}` = `none detected` and a `git -C <fixture> diff ...`
-      command. Accept iff the entire return is exactly `SKIPPED: no documented standards`.
+- [x] **Harness run A — positive case, real repo (read-only)**: verified 2026-07-10 against
+      `/home/codey/Dev/cel-go` (user decision 2026-07-10: `HEAD~5...HEAD`, 7 files, non-empty diff — substituted
+      for the originally-planned `/Users/codey.byrne/dev/kotlin.applications` which was unavailable on this
+      machine). Fill: `{DIFF_CMD}` = `git -C /home/codey/Dev/cel-go diff HEAD~5...HEAD`,
+      `{COMMIT_LIST}` = pasted `git -C ... log HEAD~5..HEAD --oneline`, `{LINT_CONFIG_FILENAMES}` = `none
+      detected` (no lint/fmt configs at that repo's root), `{RETURN_CONTRACT}` = pasted contract. Spawned one
+      `general` sub-agent with the filled prompt. The agent delegated discovery to a nested `explore` sub-agent
+      (confirmed visible in its preface line: `DELEGATED: explorer found CONTRIBUTING.md,
+      PULL_REQUEST_TEMPLATE.md`) — this required adding `agent.general.permission.task: {"*": "allow"}` to
+      `~/.config/opencode/opencode.json` first, since subagents do not get the `task` tool by default. Discovery
+      found `CONTRIBUTING.md` plus `PULL_REQUEST_TEMPLATE.md` at the repo root (this repo has no
+      `CLAUDE.md`/`AGENTS.md`/`docs/`). The return passes Contract C: 4 `blocker (presumptive)` findings (commit
+      summary >50 chars, commit body lines >72 chars) then 3 `suggestion` findings (missing "why" rationale,
+      untested negative-costFactor guard at `ext/lists.go:781`), every cite naming the rule file
+      (`PULL_REQUEST_TEMPLATE.md`) and quoting the breaching hunk, blockers before suggestions. The run did not
+      write to that repo.
+- [x] **Harness run B — skip case, bare fixture**: verified separately by the user 2026-07-10. Accept iff the
+      entire return is exactly `SKIPPED: no documented standards`.
 
 ### Manual verification
 
