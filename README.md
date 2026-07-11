@@ -25,7 +25,7 @@ This repo is a collection of skills inspired by and adapted from the following c
 Where a skill deliberately diverges from its source, the reasoning lives in [docs/](docs) — see
 [grill-me](docs/grill-me.md) and [grill-with-docs](docs/grill-with-docs.md), and one record per pipeline skill:
 [research](docs/research.md), [design](docs/design.md), [structure](docs/structure.md),
-[write-plan](docs/write-plan.md), [implement](docs/implement.md), and [open-pr](docs/open-pr.md).
+[write-plan](docs/write-plan.md), and [implement](docs/implement.md).
 
 ---
 

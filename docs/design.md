@@ -1,8 +1,8 @@
 # `/design` — what changed from the source
 
-Adapted from the **QRSPI** workflow by [Dex Horthy](https://github.com/dexhorthy) / HumanLayer, as written up in
-[From RPI to QRSPI](https://alexlavaee.me/blog/from-rpi-to-qrspi/). `/design` ports the Design phase — the pipeline's
-main human alignment gate. This documents what survived intact and where our port deviates, and why.
+Inspired by the **QRSPI** workflow by [Dex Horthy](https://github.com/dexhorthy) / HumanLayer. `/design` handles the
+Design phase — the pipeline's main human alignment gate. This documents what survived intact and where this skill
+deviates, and why.
 
 ## What carried over
 
@@ -25,16 +25,15 @@ deep-reviews holds decisions with rationales, not a pile of open threads.
 
 ## Resolutions land in `design.md`, not a Decision Snapshot
 
-This repo's standalone grills close by persisting a Decision Snapshot to `.planning/decisions-<feature>.md`. Inside
-`/design` that would mean two decision-carrying artifacts for one phase, and every downstream phase reconciling them.
-The pipeline keeps one artifact per phase: as each branch resolves, the grill writes it straight into `design.md`'s
-Resolved decisions section, and no Snapshot file is created. The Snapshot remains exactly what it was — standalone
-`/grill-me`'s output, for grills that run outside the pipeline.
+This repo's standalone grills used to close by persisting a Decision Snapshot to `.planning/decisions-<feature>.md`.
+Inside`/design` that would mean two decision-carrying artifacts for one phase, and every downstream phase reconciling
+them. The pipeline keeps one artifact per phase: as each branch resolves, the grill writes it straight into
+`design.md`'s Resolved decisions section, and no Snapshot file is created.
 
 ## `to-prd` is deleted
 
-QRSPI has no requirements document, and with this phase neither does the pipeline. The PRD's decision-carrying role is
-subsumed by `design.md`, and its user-stories format would feed nothing — no downstream phase consumes user stories;
+The original `to-prd` stated it created a PRD, but it was more of a high-level spec. That file's decision-carrying role
+is subsumed by `design.md`, and its user-stories format would feed nothing — no downstream phase consumes user stories;
 structure and plan build from the design's resolved decisions. Keeping the skill anyway would have been the "preserve
 because it exists" trap, so it is deleted outright rather than left as an orphaned side path.
 

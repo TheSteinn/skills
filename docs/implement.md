@@ -1,10 +1,9 @@
 # `/implement` — what changed from the source
 
-Adapted from the **QRSPI** workflow by [Dex Horthy](https://github.com/dexhorthy) / HumanLayer, as written up in
-[From RPI to QRSPI](https://alexlavaee.me/blog/from-rpi-to-qrspi/). `/implement` ports the Implement phase — executing
-the approved plan against the codebase — but its nearest ancestor is this repo's own `orchestrate-plan`, which it
-retires and whose orchestration bones it keeps. This records what was carried, where the port deviates from QRSPI, and
-why.
+Inspired by the **QRSPI** workflow by [Dex Horthy](https://github.com/dexhorthy) / HumanLayer. `/implement` handles the
+Implement phase — executing the approved plan against the codebase — but its nearest ancestor is this repo's own
+`orchestrate-plan`, which it retires and whose orchestration bones it keeps. This records what was carried, where
+this skill deviates from QRSPI, and why.
 
 ## The orchestration bones come from `orchestrate-plan`
 
@@ -35,44 +34,43 @@ Four things carry over from the retired skill essentially intact:
 ## The Worktree phase is delegated to the user
 
 QRSPI names Worktree as a phase of the workflow; we deliberately don't ship a skill for it, and `/implement` opens by
-assuming the branch or worktree is already prepared. Two reasons. Worktree is the one QRSPI phase that is pure
-mechanism — there is no artifact in it for a human to review, so nothing earns a pipeline invocation. And having the
-human choose the isolation boundary keeps `/implement` free of git-setup side effects: a skill that branches, checks
-out, or creates worktrees on its own initiative is exactly the kind of surprise state-change an orchestrator shouldn't
-make on the user's behalf. So the skill makes no git-setup moves at all — where the work lands is the user's decision,
-made before the skill is invoked.
+assuming the branch or worktree is already prepared. Two reasons:
+
+1. Worktree is the one QRSPI phase that is pure mechanism — there is no artifact in it for a human to review, so nothing
+   earns a pipeline invocation
+2. Having the human choose the isolation boundary keeps `/implement` free of git-setup side effects: a skill that
+   branches, checks out, or creates worktrees on its own initiative is exactly the kind of surprise state-change an
+   orchestrator shouldn't make on the user's behalf.
+
+So the skill makes no git-setup moves at all — where the work lands is the user's decision, made before the skill is
+invoked.
 
 ## Commit-per-phase replaces checkbox-only progress
 
-V1's `implement_plan` tracked progress by editing `- [x]` checkboxes in the plan file — its closest thing to durable
-state. The words "git", "commit", "branch", and "worktree" appear nowhere in it, so a multi-phase run accumulated as
-one uncommitted blob with no rollback boundary; `orchestrate-plan` inherited the gap, its state living in the todo
-list and the plan's checkmarks. `/implement` keeps the checkbox editing (it is genuinely useful resume state) but
-upgrades the recording medium: one atomic commit per completed phase, and never a commit for a phase whose criteria
-haven't passed. Progress becomes real, revertible VCS history instead of prose checkmarks — which is also what lets
-resumption trust completed work rather than re-verify it.
+`orchestrate-plan` tracked progress by editing `- [x]` checkboxes in the plan file, with its state otherwise living in
+the todo list — no commit, branch, or worktree boundary marked a phase as done, so a multi-phase run accumulated as
+one uncommitted blob with no rollback boundary. `/implement` keeps the checkbox editing (it is genuinely useful resume
+state) but upgrades the recording medium: one atomic commit per completed phase, and never a commit for a phase whose
+criteria haven't passed. Progress becomes real, revertible VCS history instead of prose checkmarks — which is also
+what lets resumption trust completed work rather than re-verify it.
 
-## TDD subagents retained where QRSPI punts on testing
+## TDD subagents retained
 
-QRSPI's Implement phase says little about how the code actually gets written or tested. This repo has a stance —
-`tdd`'s red-green-refactor loop, the failing test first, plan sketches as targets rather than prescriptions — so
-`/implement` keeps `orchestrate-plan`'s rule that every phase subagent runs `/tdd`, rather than inheriting QRSPI's
-silence. The plan feeds the loop deliberately: each phase file carries a test checkpoint and split success criteria,
-and `tdd` now names the phase document as a source of seams.
+This repo has a stance — `tdd`'s red-green-refactor loop, the failing test first, plan sketches as targets rather than
+prescriptions — so `/implement` keeps `orchestrate-plan`'s rule that every phase subagent runs `/tdd`. The plan feeds
+the loop deliberately: each phase file carries a test checkpoint and split success criteria, and `tdd` now names the
+phase document as a source of seams.
 
-## The mismatch protocol is V1's, split across the two roles
+## The mismatch protocol is split across the two roles
 
-V1 `implement_plan`'s best part was its refusal to be robotic in either direction. It would not execute blindly: on a
-real mismatch the agent must "STOP and think deeply about why the plan can't be followed" and emit a fixed report —
-Issue in Phase N / Expected / Found / Why this matters / How should I proceed? And it would not stall on trivia
-either: "the plan is your guide, but your judgment matters too" — follow the plan's intent while adapting to what you
-find. `orchestrate-plan` had neither half, leaving mismatch handling to the model's judgment. `/implement` adopts
-both and gives each to the role it fits. The subagent inherits the philosophy: minor mismatches — a moved file, a
-renamed symbol, a sketch that doesn't compile as written — are adapted around with judgment and reported, never
-silently absorbed and never stopped on; anything that would change a seam or the design is beyond adaptation, so the
-subagent stops and reports instead of implementing it. The orchestrator inherits the STOP, widened into a three-way
-triage of every reported mismatch: **hard stop** — the plan is irreconcilable with the codebase, so the orchestration
-ends with V1's report template, verbatim in spirit, and the fix goes back up the pipeline; **soft stop** — the plan
-holds but the adaptation deserves a human look, so the user confirms before the next phase starts; **silent
-proceed** — the adaptation is minor, neither seam nor design change, so it is noted and named in the final summary's
-deviations.
+Neither extreme works for a mismatch between plan and codebase: executing blindly papers over real problems, and
+stalling on every trivial deviation makes the orchestration useless. `/implement` refuses to be robotic in either
+direction, and gives that judgment to the role it fits. The subagent inherits it first: minor mismatches — a moved
+file, a renamed symbol, a sketch that doesn't compile as written — are adapted around with judgment and reported,
+never silently absorbed and never stopped on; anything that would change a seam or the design is beyond adaptation,
+so the subagent stops and reports instead of implementing it. The orchestrator widens that binary into a three-way
+triage of every reported mismatch: **hard stop** — the plan is irreconcilable with the codebase, so the
+orchestration ends, reporting the issue, what was expected, what was found, why it matters, and how to proceed, and
+the fix goes back up the pipeline; **soft stop** — the plan holds but the adaptation deserves a human look, so the
+user confirms before the next phase starts; **silent proceed** — the adaptation is minor, neither seam nor design
+change, so it is noted and named in the final summary's deviations.
