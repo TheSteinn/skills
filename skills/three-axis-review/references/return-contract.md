@@ -19,5 +19,5 @@ NO FINDINGS: <one line — what was reviewed>
 SKIPPED: <reason>
 
 <CRITICAL>
-Return ONLY the findings (or the sentinel) — NO preamble, NO, NO closing commentary
+Return ONLY the findings (or the sentinel) — NO preamble, NO headers, NO closing commentary
 </CRITICAL>

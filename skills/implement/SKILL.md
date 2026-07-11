@@ -20,9 +20,9 @@ no git-setup moves: no branching, no checkout, no worktree creation.
 
 ## 1. Load the plan
 
-Locate `.planning/<slug>/plan/`: take the slug from the invocation; if none was given and exactly one exists, use it;
-otherwise ask the user. A plan is this skill's one hard prerequisite — if there is no `plan/`, stop and point the user
-at `/write-plan`: implementing without a plan is just `/tdd` on the target change.
+Locate `.planning/<slug>/plan/`: take the slug from the invocation; if none was given and exactly one directory exists,
+use it; otherwise ask the user. A plan is this skill's one hard prerequisite — if there is no `plan/`, stop and point
+the user at `/write-plan`: implementing without a plan is just `/tdd` on the target change.
 
 Read `plan/index.md` fully and put every phase on your todo list. If any phase file already has checked-off criteria,
 previous work exists: trust the commits, and resume from the first incomplete phase. Loading the plan is yours alone —
