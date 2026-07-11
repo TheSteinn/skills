@@ -24,13 +24,11 @@ The grill ends when every branch is resolved or explicitly parked. Close by pres
 - If durable docs were written during the session (glossary terms, ADRs), reference them — don't restate their content.
 - Then list cross-topic dependencies, and any remaining open questions or outstanding items.
 
-Get the user's explicit confirmation of this record. If the user asks to persist it, write it as presented to
-`.planning/decisions-<feature>.md` (creating `.planning/` if needed) — downstream planning skills look for it at that
-path.
+Get the user's explicit confirmation of this record.
 
-<critical>
+<CRITICAL>
 - Ask one question at a time — asking multiple questions at once creates cognitive overload.
 - When asking a question, wait for an explicit answer before continuing — the user may have queries or feedback on a
   decision point to resolve first.
 - Do not implement anything during the grill — grilling is elicitation, not implementation.
-</critical>
+</CRITICAL>

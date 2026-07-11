@@ -77,5 +77,6 @@ skill re-suggesting the same thing.
 To explore alternative interfaces for the deepened module, use `codebase-designing`'s design-it-twice pattern
 (parallel sub-agent designs compared on depth, locality, and seam placement).
 
-When the grill closes, `grilling` presents its decision record and can persist it to `.planning/decisions-<feature>.md`
-— from there, `/to-plan` turns the chosen deepening into a phased plan and `/tdd` drives the implementation.
+When the grill closes, `grilling` presents its decision record and can persist it to `.planning/decisions-<feature>.md`.
+From there, the workflow pipeline can take over if the user wants: suggest they run `/research` with the chosen
+deepening as the task, and bring the persisted decision record into `/design` as already-resolved input.

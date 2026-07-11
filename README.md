@@ -1,24 +1,31 @@
 # Skills
 
-A collection of agent skills for a structured development workflow — from stress-testing an idea, through decision
-records and phased plans, to test-driven implementation. Supporting skills cover domain documentation, doc comments,
-and code review.
+A collection of agent skills for a structured development workflow — from a raw task, through researched facts and a
+deep-reviewed design, to test-driven implementation and a pull request. Supporting skills cover domain documentation,
+doc comments, and code review.
 
-The heart of the repo is a pipeline: grill a design until it holds up, capture what was decided, slice it into a plan,
-and implement it phase by phase. Each skill works standalone, but they're designed to hand off to each other.
+The heart of the repo is the **workflow pipeline** — Question → Research → Design → Structure → Plan → Implement → PR,
+run as six separate invocations. Its economics are the point: you deep-review the design, the structure, and the code
+at PR — never the long plan, which is written for the implementing agent and only spot-checked. Each run's artifacts
+live in `.planning/<feature>/`, so every phase can start from a fresh session and rebuild from disk.
 
 ## Credits
 
 This repo is a collection of skills inspired by and adapted from the following creators:
 
+- **[Dex Horthy](https://github.com/dexhorthy) / HumanLayer** — the workflow he referred to as RPI and later QRSPI is
+  the origin of the six pipeline skills
 - **[Matt Pocock](https://github.com/mattpocock)** — his [skills repo](https://github.com/mattpocock/skills) is the
-  origin of the planning pipeline (`/grill-me`, `/to-prd`, `/tdd`) and of the domain-docs approach (`LANGUAGE.md`,
-  ADRs) that `/grill-with-docs` and `/initialise-docs` build on
+  origin of `/grill-me`, `/tdd`, and this repo's original planning pipeline (the since-retired `/to-prd`, whose
+  Decision Snapshot → PRD → plan → orchestrate flow the workflow pipeline replaced), and of the domain-docs approach
+  (`LANGUAGE.md`, ADRs) that `/grill-with-docs` and `/initialise-docs` build on
 - **[Anthropic](https://github.com/anthropics/skills)** — `/skill-creator`
 - **[v1r3n](https://github.com/v1r3n/dinesh-gilfoyle)** — `/dg`
 
 Where a skill deliberately diverges from its source, the reasoning lives in [docs/](docs) — see
-[grill-me](docs/grill-me.md) and [grill-with-docs](docs/grill-with-docs.md).
+[grill-me](docs/grill-me.md) and [grill-with-docs](docs/grill-with-docs.md), and one record per pipeline skill:
+[research](docs/research.md), [design](docs/design.md), [structure](docs/structure.md),
+[write-plan](docs/write-plan.md), and [implement](docs/implement.md).
 
 ---
 
@@ -33,13 +40,96 @@ Alternatively, clone the repo to the appropriate agent skills directory.
 
 ## Skills
 
-### Planning
+### Workflow pipeline
+
+A port of the workflow described by Dex Horthy at a high-level in several conferences and podcasts — each phase is a
+separate small invocation, reviewed by the human at the "cheap" artifacts. There is no dispatcher: a phase runs because
+you invoke it, and each one consumes whatever upstream artifacts exist in `.planning/<feature>/`.
+
+#### `/research`
+
+Decomposes a task into neutral research questions, then answers them with **task-blind subagents** — researcher
+prompts never contain the task, so the findings describe what the codebase is rather than evidence for the change you
+have in mind. Produces `task.md`, `questions.md`, and a cited, recommendation-free `research.md` in
+`.planning/<feature>/`, ready for the design step to build on.
+
+#### `/design`
+
+Brain-dumps a ~200-line design — current state, desired end state, patterns to follow, resolved decisions, open
+questions — from `task.md` and `research.md`, then **grills the open questions** until every branch is resolved or
+explicitly parked, writing resolutions straight into the document as they land. Produces `design.md` in
+`.planning/<feature>/`: the pipeline's main alignment gate, deep-reviewed by you before any code exists.
+
+#### `/structure`
+
+Slices the approved design into ordered **tracer-bullet vertical slices** — each cutting end-to-end through the layers
+it touches, named for its observable behaviour, and carrying a test checkpoint — then reviews the granularity with
+you, merging and splitting until it's right. Produces `structure.md` (~2 pages) in `.planning/<feature>/`: the second
+alignment gate, at header-file altitude — order, checkpoints, and signature sketches, never implementation.
+
+#### `/write-plan`
+
+Expands the approved structure into the tactical plan the implementing agent executes — one plan phase per approved
+slice, written as an index plus **self-contained phase files** that restate the context each implementer needs, show
+code sketches as targets (not prescriptions — the failing test still comes first), and split success criteria into
+automated and manual checks. Produces `plan/index.md` and per-phase files in `.planning/<feature>/`: the artifact you
+spot-check rather than deep-review, because the deep review already happened at design and structure.
+
+#### `/implement`
+
+Executes the plan phase by phase as a pure orchestrator: each phase goes to a fresh subagent whose prompt starts with
+`/tdd` and hands it two file paths — the plan index and its own phase file — as persisted memory, hard-scoped to
+exactly that phase. Subagents follow the plan's intent while adapting to what they find, reporting every mismatch; the
+orchestrator triages each one — a hard stop with a structured report, a soft stop for your confirmation, or a noted
+deviation. It re-runs the automated success criteria itself, lands **one atomic commit per completed phase**, and
+pauses for your manual verification steps. Assumes you have already prepared the branch or worktree: it makes no
+git-setup moves of its own.
+
+#### `/three-axis-review` (optional)
+
+An optional quality gate between `/implement` and `/open-pr` — not a pipeline phase; nothing invokes it but you.
+Reviews the diff since a fixed point along three orthogonal axes, each a parallel sub-agent: **Spec** (does it do
+the right thing — consuming the `.planning/<feature>/` artifacts: `plan/` → `structure.md` → `design.md`),
+**Standards** (documented repo rules only), and **Structure** (a merged smell baseline plus a deterministic
+1k-line file gate). Reports labelled findings per axis — blockers first, never reranked across axes — and no
+overall verdict.
+
+#### `/open-pr`
+
+Delivers the work as a pull request whose description is grounded in `design.md` — Why, What changed, Decisions
+exercised, and Verification, pitched at behaviour and design choices rather than file-by-file detail — so review is
+**confirmation of decisions you already approved**, not discovery. Uses whatever forge CLI is available and
+authenticated, and confirms the title, description, and target branch with you before pushing anything. Ends with the
+pipeline's one non-negotiable: now read the code.
+
+#### A typical run
+
+```
+/research <task>   → task.md, questions.md, research.md
+/clear
+/design            → design.md                      ← deep-review this
+/clear
+/structure         → structure.md                   ← deep-review this
+/clear
+/write-plan        → plan/index.md + phase files    ← spot-check only
+/clear             (and prepare the branch or worktree yourself)
+/implement         → one commit per completed phase
+/clear
+/open-pr           → the pull request               ← now read the code
+```
+
+Every artifact lands in `.planning/<feature>/`, and each phase rebuilds from those files rather than the previous
+conversation — that's what the `/clear` between phases buys: a fresh context at no cost to continuity. The branch or
+worktree is your job: prepare it before `/implement`, which makes no git-setup moves of its own.
+
+### Standalone
 
 #### `/grill-me`
 
 Relentlessly interviews you about a plan or design until you reach a shared understanding. Drills into every decision
-point one at a time, resolves cross-cutting dependencies explicitly, and produces a **Decision Snapshot** — a
-historical record of what was discussed and agreed. The Snapshot feeds downstream documents like PRDs and plans.
+point one at a time, recommends an answer with each question, resolves cross-cutting dependencies explicitly, and
+closes with a decision record — one entry per topic, final resolution and rationale. On request it persists the record
+to `.planning/decisions-<feature>.md`, ready to seed the pipeline as already-resolved input to `/design`.
 
 #### `/grill-with-docs`
 
@@ -49,34 +139,13 @@ inline — at peak attention, never batched at the end — and offers an ADR whe
 to reverse, surprising without context, a real trade-off). Use it when the grill should leave durable docs behind;
 use plain `/grill-me` when it shouldn't.
 
-#### `/to-prd`
+#### `/improve-codebase-design`
 
-Turns conversation context and a Decision Snapshot into a formal PRD saved to `.planning/`. Best for larger features
-that will be broken into multiple plans, or when a standalone requirements document is needed for stakeholders. Small,
-well-defined changes can skip this step and go straight to `/to-plan`.
-
-#### `/to-plan`
-
-Breaks a PRD or Decision Snapshot into a phased implementation plan using **tracer bullet** vertical slices. Each
-phase is a thin, end-to-end slice that cuts through all relevant integration layers and is independently demoable or
-verifiable. Produces a plan index and per-phase documents in `.planning/`.
-
-### Implementation
-
-#### `/tdd`
-
-Runs the red-green-refactor loop for a given phase or feature. Emphasises testing behaviour through public interfaces
-rather than implementation details, and strictly enforces vertical slicing — one test, one implementation, repeat.
-Avoids horizontal slicing (writing all tests before writing any code).
-
-#### `/orchestrate-plan`
-
-Implements a multi-phase plan by delegation: the session acts purely as an orchestrator, handing each phase to a
-dedicated subagent that runs `/tdd`, verifying acceptance criteria as phases complete, and re-delegating when a
-criterion fails. If a phase fails twice, it stops and hands back to you to course-correct. An alternative to driving
-`/tdd` phase by phase yourself.
-
-### Domain documentation
+Scans the codebase for **deepening opportunities** — shallow modules that could hide more behaviour behind smaller
+interfaces — and presents the candidates as a visual HTML report: before/after diagrams, benefits in terms of locality
+and leverage, and a top recommendation. Pick one and it grills through the design with you, recording glossary terms
+and ADRs as decisions crystallise; from there the pipeline takes over, with the chosen deepening as `/research`'s
+task.
 
 #### `/initialise-docs`
 
@@ -86,7 +155,11 @@ detection), and proposes a draft `LANGUAGE.md` per chosen module from a codebase
 reasonable starting glossary in place fast and hands refinement to `/grill-with-docs`. Requires `/grill-with-docs` to
 be installed (it owns the shared format specs), and only ever runs when you invoke it explicitly.
 
-### Review
+#### `/tdd`
+
+Runs the red-green-refactor loop for a given phase or feature. Emphasises testing behaviour through public interfaces
+rather than implementation details, and strictly enforces vertical slicing — one test, one implementation, repeat.
+Avoids horizontal slicing (writing all tests before writing any code).
 
 #### `/code-doc`
 
@@ -107,58 +180,18 @@ back-and-forth produces genuinely better reviews. Includes Gradle dependency ana
 /dg --pr <branch> <path>         → PR review scoped to a path
 ```
 
-### Meta
+### Utilities
+
+#### `/acli`
+
+A verified reference for Atlassian's official CLI (`acli`) covering Jira and Confluence Cloud: JQL searches, work
+items, transitions, comments, sprints, boards, and Confluence pages, plus the rules that keep generated commands from
+breaking — long-form flags always, `--json` everywhere, `--yes` on bulk operations. Org specifics (site, project keys,
+board IDs, workflow statuses) live in a user-maintained setup file outside the skill directory; the skill reads it and
+asks you rather than guessing.
 
 #### `/skill-creator`
 
 Creates new skills and iteratively improves existing ones. Walks through the full loop: capturing intent, drafting the
 skill, writing test cases, running evals, reviewing results, and revising. Also runs the skill description optimiser
 to improve triggering accuracy.
-
----
-
-## Workflow
-
-The pipeline runs from idea to implementation:
-
-```
-/grill-me ───────────┐
-                     ├──→  [/to-prd]  ──→  /to-plan  ──→  /tdd  or  /orchestrate-plan
-/grill-with-docs ────┘
-```
-
-With `/initialise-docs` as a one-time precursor in repos that document their domain language.
-
-### 0. `/initialise-docs` — once per repo _(optional)_
-
-Bootstrap the domain docs: consumer wiring, context boundaries, and a draft starting glossary. After this, the
-project's language is something every later session can read — and `/grill-with-docs` has something to challenge
-your plans against.
-
-### 1. `/grill-me` or `/grill-with-docs` — stress-test your thinking
-
-Start here when you have an idea but haven't fully worked through the design. Both run the same relentless interview —
-one question at a time, dependencies resolved explicitly, ending in a Decision Snapshot. The difference is what they
-leave behind: `/grill-with-docs` also maintains the durable docs (`LANGUAGE.md`, ADRs) as decisions crystallise, while
-`/grill-me` mutates nothing — the right choice for proofs of concept and plans that shouldn't touch the project's
-canonical language.
-
-### 2. `/to-prd` _(optional — skip for small changes)_
-
-If the feature is large enough to warrant a formal requirements document, turn the Decision Snapshot into a PRD.
-Useful for cross-team alignment or when a feature will be broken into multiple plans. For smaller changes, feed the
-Snapshot directly into `/to-plan`.
-
-### 3. `/to-plan` — slice the work
-
-Break the PRD (or Snapshot) into a phased plan of tracer bullet vertical slices. Each phase should be thin,
-end-to-end, and independently verifiable — no big-bang phases.
-
-### 4. `/tdd` or `/orchestrate-plan` — implement phase by phase
-
-Take each phase through a red-green-refactor loop with `/tdd` — one test at a time, one implementation at a time. Or
-hand the whole plan to `/orchestrate-plan` and let it delegate each phase to a `/tdd` subagent while it tracks
-acceptance criteria.
-
-Along the way: `/code-doc` keeps doc comments honest (it's composed into `/tdd`), and `/dg` reviews the result with
-maximum prejudice.
