@@ -85,6 +85,15 @@ deviation. It re-runs the automated success criteria itself, lands **one atomic 
 pauses for your manual verification steps. Assumes you have already prepared the branch or worktree: it makes no
 git-setup moves of its own.
 
+#### `/three-axis-review` (optional)
+
+An optional quality gate between `/implement` and `/open-pr` — not a pipeline phase; nothing invokes it but you.
+Reviews the diff since a fixed point along three orthogonal axes, each a parallel sub-agent: **Spec** (does it do
+the right thing — consuming the `.planning/<feature>/` artifacts: `plan/` → `structure.md` → `design.md`),
+**Standards** (documented repo rules only), and **Structure** (a merged smell baseline plus a deterministic
+1k-line file gate). Reports labelled findings per axis — blockers first, never reranked across axes — and no
+overall verdict.
+
 #### `/open-pr`
 
 Delivers the work as a pull request whose description is grounded in `design.md` — Why, What changed, Decisions
