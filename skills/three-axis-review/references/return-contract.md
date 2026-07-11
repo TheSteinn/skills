@@ -7,8 +7,8 @@ Report each finding as one bullet in exactly this shape, every blocker listed be
 </template>
 
 <rule>
-`blocker (presumptive)` only on an objective trigger or a documented-rule breach; otherwise
-`suggestion`. When unsure, `suggestion`.
+`blocker (presumptive)` only on an objective trigger or a documented-rule breach; otherwise `suggestion`. When unsure, 
+`suggestion`.
 </rule>
 
 
@@ -19,6 +19,5 @@ NO FINDINGS: <one line — what was reviewed>
 SKIPPED: <reason>
 
 <CRITICAL>
-- Return only the findings (or the sentinel) — no preamble, no headers, no closing commentary.
-- Do not use first-person
+Return ONLY the findings (or the sentinel) — NO preamble, NO, NO closing commentary
 </CRITICAL>
