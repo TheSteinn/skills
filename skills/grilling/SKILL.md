@@ -1,7 +1,6 @@
 ---
 name: grilling
 description: Core grilling technique — relentlessly interview the user about the subject under discussion (an idea, design, plan, or question) until shared understanding is reached. Use when the user asks to be grilled or interviewed, wants to stress-test an idea, design, plan or question, or when another skill's workflow calls for a grill.
-user-invocable: false
 ---
 
 Interview the user relentlessly about every aspect of the subject under discussion — an idea, design, plan, or
@@ -9,9 +8,10 @@ question — until you and the user reach a shared understanding. If the subject
 to present it first.
 
 Identify all major decision points and assumptions. Walk down each branch of the decision tree and resolve dependencies
-between decisions one-by-one. For each question, provide your recommended answer — if a question can be answered by
-exploring the codebase, explore the codebase instead of asking. When two decisions depend on each other, resolve the
-dependency explicitly and confirm the resolution with the user before moving on.
+between decisions one-by-one. For each question, provide your recommended answer. If a _fact_ can be found by exploring
+the codebase/environment, then look it up instead of asking the user. However, each _decision_ is for the user - put
+each one to the user and wait for their answer. When two decisions depend on each other, resolve the dependency
+explicitly and confirm the resolution with the user before moving on.
 
 ## Closing the grill
 

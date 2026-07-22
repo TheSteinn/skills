@@ -5,9 +5,9 @@ deep-reviewed design, to test-driven implementation and a pull request. Supporti
 doc comments, and code review.
 
 The heart of the repo is the **workflow pipeline** — Question → Research → Design → Structure → Plan → Implement → PR,
-run as six separate invocations. Its economics are the point: you deep-review the design, the structure, and the code
-at PR — never the long plan, which is written for the implementing agent and only spot-checked. Each run's artifacts
-live in `.planning/<feature>/`, so every phase can start from a fresh session and rebuild from disk.
+run as six separate invocations. Its economics are the point: you deep-review the design, the structure, and the code at
+PR — never the long plan, which is written for the implementing agent and only spot-checked. Each run's artifacts live
+in `.planning/<feature>/`, so every phase can start from a fresh session and rebuild from disk.
 
 ## Credits
 
@@ -16,15 +16,12 @@ This repo is a collection of skills inspired by and adapted from the following c
 - **[Dex Horthy](https://github.com/dexhorthy) / HumanLayer** — the workflow he referred to as RPI and later QRSPI is
   the origin of the six pipeline skills
 - **[Matt Pocock](https://github.com/mattpocock)** — his [skills repo](https://github.com/mattpocock/skills) is the
-  origin of `/grill-me`, `/tdd`, and this repo's original planning pipeline (the since-retired `/to-prd`, whose
-  Decision Snapshot → PRD → plan → orchestrate flow the workflow pipeline replaced), and of the domain-docs approach
-  (`LANGUAGE.md`, ADRs) that `/grill-with-docs` and `/initialise-docs` build on
-- **[Anthropic](https://github.com/anthropics/skills)** — `/skill-creator`
+  origin of the grilling, tdd, domain-docs, and codebase design glossary approach
 - **[v1r3n](https://github.com/v1r3n/dinesh-gilfoyle)** — `/dg`
 
 Where a skill deliberately diverges from its source, the reasoning lives in [docs/](docs) — see
-[grill-me](docs/grill-me.md) and [grill-with-docs](docs/grill-with-docs.md), and one record per pipeline skill:
-[research](docs/research.md), [design](docs/design.md), [structure](docs/structure.md),
+[the Pocock-adapted skills](docs/adapted-pocock-skills.md) for the `/grilling` family, and one record per pipeline
+skill: [research](docs/research.md), [design](docs/design.md), [structure](docs/structure.md),
 [write-plan](docs/write-plan.md), and [implement](docs/implement.md).
 
 ---
@@ -48,9 +45,9 @@ you invoke it, and each one consumes whatever upstream artifacts exist in `.plan
 
 #### `/research`
 
-Decomposes a task into neutral research questions, then answers them with **task-blind subagents** — researcher
-prompts never contain the task, so the findings describe what the codebase is rather than evidence for the change you
-have in mind. Produces `task.md`, `questions.md`, and a cited, recommendation-free `research.md` in
+Decomposes a task into neutral research questions, then answers them with **task-blind subagents** — researcher prompts
+never contain the task, so the findings describe what the codebase is rather than evidence for the change you have in
+mind. Produces `task.md`, `questions.md`, and a cited, recommendation-free `research.md` in
 `.planning/<feature>/`, ready for the design step to build on.
 
 #### `/design`
@@ -63,8 +60,8 @@ explicitly parked, writing resolutions straight into the document as they land. 
 #### `/structure`
 
 Slices the approved design into ordered **tracer-bullet vertical slices** — each cutting end-to-end through the layers
-it touches, named for its observable behaviour, and carrying a test checkpoint — then reviews the granularity with
-you, merging and splitting until it's right. Produces `structure.md` (~2 pages) in `.planning/<feature>/`: the second
+it touches, named for its observable behaviour, and carrying a test checkpoint — then reviews the granularity with you,
+merging and splitting until it's right. Produces `structure.md` (~2 pages) in `.planning/<feature>/`: the second
 alignment gate, at header-file altitude — order, checkpoints, and signature sketches, never implementation.
 
 #### `/write-plan`
@@ -78,21 +75,20 @@ spot-check rather than deep-review, because the deep review already happened at 
 #### `/implement`
 
 Executes the plan phase by phase as a pure orchestrator: each phase goes to a fresh subagent whose prompt starts with
-`/tdd` and hands it two file paths — the plan index and its own phase file — as persisted memory, hard-scoped to
-exactly that phase. Subagents follow the plan's intent while adapting to what they find, reporting every mismatch; the
+`/tdd` and hands it two file paths — the plan index and its own phase file — as persisted memory, hard-scoped to exactly
+that phase. Subagents follow the plan's intent while adapting to what they find, reporting every mismatch; the
 orchestrator triages each one — a hard stop with a structured report, a soft stop for your confirmation, or a noted
-deviation. It re-runs the automated success criteria itself, lands **one atomic commit per completed phase**, and
-pauses for your manual verification steps. Assumes you have already prepared the branch or worktree: it makes no
-git-setup moves of its own.
+deviation. It re-runs the automated success criteria itself, lands **one atomic commit per completed phase**, and pauses
+for your manual verification steps. Assumes you have already prepared the branch or worktree: it makes no git-setup
+moves of its own.
 
 #### `/three-axis-review` (optional)
 
-An optional quality gate between `/implement` and `/open-pr` — not a pipeline phase; nothing invokes it but you.
-Reviews the diff since a fixed point along three orthogonal axes, each a parallel sub-agent: **Spec** (does it do
-the right thing — consuming the `.planning/<feature>/` artifacts: `plan/` → `structure.md` → `design.md`),
-**Standards** (documented repo rules only), and **Structure** (a merged smell baseline plus a deterministic
-1k-line file gate). Reports labelled findings per axis — blockers first, never reranked across axes — and no
-overall verdict.
+An optional quality gate between `/implement` and `/open-pr` — not a pipeline phase; nothing invokes it but you. Reviews
+the diff since a fixed point along three orthogonal axes, each a parallel sub-agent: **Spec** (does it do the right
+thing — consuming the `.planning/<feature>/` artifacts: `plan/` → `structure.md` → `design.md`), **Standards**
+(documented repo rules only), and **Structure** (a merged smell baseline plus a deterministic 1k-line file gate).
+Reports labelled findings per axis — blockers first, never reranked across axes — and no overall verdict.
 
 #### `/open-pr`
 
@@ -124,36 +120,52 @@ worktree is your job: prepare it before `/implement`, which makes no git-setup m
 
 ### Standalone
 
-#### `/grill-me`
+#### `/grilling`
 
-Relentlessly interviews you about a plan or design until you reach a shared understanding. Drills into every decision
-point one at a time, recommends an answer with each question, resolves cross-cutting dependencies explicitly, and
-closes with a decision record — one entry per topic, final resolution and rationale. On request it persists the record
-to `.planning/decisions-<feature>.md`, ready to seed the pipeline as already-resolved input to `/design`.
+Relentlessly interviews you about an idea, design, plan, or question until you reach a shared understanding. Drills into
+every decision point one at a time, recommends an answer with each question, resolves cross-cutting dependencies
+explicitly, and closes with a decision record — one entry per topic, final resolution and rationale. This is the core
+interview engine that `/design`, `/grill-with-docs`, and `/improve-codebase-design` compose; a host workflow can direct
+the closing record to a file such as `.planning/decisions-<feature>.md`, ready to seed `/design` as already-resolved
+input.
 
 #### `/grill-with-docs`
 
-Everything `/grill-me` does, with the project's documented domain language as a live participant. It challenges your
+Everything `/grilling` does, with the project's documented domain language as a live participant. It challenges your
 plan against `LANGUAGE.md`, sharpens fuzzy terminology the moment it appears, writes resolved terms into the glossary
-inline — at peak attention, never batched at the end — and offers an ADR when a decision genuinely warrants one (hard
-to reverse, surprising without context, a real trade-off). Use it when the grill should leave durable docs behind;
-use plain `/grill-me` when it shouldn't.
+inline — at peak attention, never batched at the end — and offers an ADR when a decision genuinely warrants one (hard to
+reverse, surprising without context, a real trade-off). Use it when the grill should leave durable docs behind; use
+plain `/grilling` when it shouldn't.
+
+#### `/codebase-designing`
+
+Shared vocabulary for designing deep modules — Module, Interface, Depth, Seam, Adapter, Leverage, Locality — grounded in
+Ousterhout's account of complexity. Use it to design or sharpen a module's interface, decide where a seam goes, diagnose
+why code is hard to understand or change, or make code more testable and AI-navigable. Primarily a vocabulary that other
+design skills compose — `/tdd` and `/improve-codebase-design` both defer to it — rather than a standalone workflow.
+
+#### `/domain-modelling`
+
+Actively builds and sharpens a project's domain model during a session: challenges terms against the glossary, sharpens
+fuzzy language, writes resolved terms into `LANGUAGE.md` inline — announcing each write so you can object immediately —
+and offers an ADR when a decision genuinely warrants one (hard to reverse, surprising without context, a real
+trade-off). Owns the durable domain docs that `/grill-with-docs` and `/improve-codebase-design` write through; in a
+monorepo it keeps one owner per term and asks rather than guessing which module owns it.
 
 #### `/improve-codebase-design`
 
 Scans the codebase for **deepening opportunities** — shallow modules that could hide more behaviour behind smaller
 interfaces — and presents the candidates as a visual HTML report: before/after diagrams, benefits in terms of locality
-and leverage, and a top recommendation. Pick one and it grills through the design with you, recording glossary terms
-and ADRs as decisions crystallise; from there the pipeline takes over, with the chosen deepening as `/research`'s
-task.
+and leverage, and a top recommendation. Pick one and it grills through the design with you, recording glossary terms and
+ADRs as decisions crystallise; from there the pipeline takes over, with the chosen deepening as `/research`'s task.
 
 #### `/initialise-docs`
 
 One-time bootstrap for a repo's domain documentation. Wires up the consumer pointer (`docs/agents/domain.md` plus a
 `## Domain docs` block in `CLAUDE.md`/`AGENTS.md`), confirms context boundaries with you (with monorepo module
 detection), and proposes a draft `LANGUAGE.md` per chosen module from a codebase scan. Breadth, not depth — it gets a
-reasonable starting glossary in place fast and hands refinement to `/grill-with-docs`. Requires `/grill-with-docs` to
-be installed (it owns the shared format specs), and only ever runs when you invoke it explicitly.
+reasonable starting glossary in place fast and hands refinement to `/grill-with-docs`. Requires `/grill-with-docs` to be
+installed (it owns the shared format specs), and only ever runs when you invoke it explicitly.
 
 #### `/tdd`
 
@@ -169,9 +181,9 @@ code does. Includes language-specific reference files where conventions differ.
 
 #### `/dg`
 
-An adversarial code review in the style of Dinesh vs. Gilfoyle from HBO's Silicon Valley. Gilfoyle attacks the code
-with withering technical precision; Dinesh defends it with flustered competence. The banter entertains; the
-back-and-forth produces genuinely better reviews. Includes Gradle dependency analysis and CVE scanning.
+An adversarial code review in the style of Dinesh vs. Gilfoyle from HBO's Silicon Valley. Gilfoyle attacks the code with
+withering technical precision; Dinesh defends it with flustered competence. The banter entertains; the back-and-forth
+produces genuinely better reviews. Includes Gradle dependency analysis and CVE scanning.
 
 ```
 /dg                              → review local git diff
@@ -184,8 +196,8 @@ back-and-forth produces genuinely better reviews. Includes Gradle dependency ana
 
 #### `/acli`
 
-A verified reference for Atlassian's official CLI (`acli`) covering Jira and Confluence Cloud: JQL searches, work
-items, transitions, comments, sprints, boards, and Confluence pages, plus the rules that keep generated commands from
+A verified reference for Atlassian's official CLI (`acli`) covering Jira and Confluence Cloud: JQL searches, work items,
+transitions, comments, sprints, boards, and Confluence pages, plus the rules that keep generated commands from
 breaking — long-form flags always, `--json` everywhere, `--yes` on bulk operations. Org specifics (site, project keys,
 board IDs, workflow statuses) live in a user-maintained setup file outside the skill directory; the skill reads it and
 asks you rather than guessing.
@@ -193,5 +205,5 @@ asks you rather than guessing.
 #### `/skill-creator`
 
 Creates new skills and iteratively improves existing ones. Walks through the full loop: capturing intent, drafting the
-skill, writing test cases, running evals, reviewing results, and revising. Also runs the skill description optimiser
-to improve triggering accuracy.
+skill, writing test cases, running evals, reviewing results, and revising. Also runs the skill description optimiser to
+improve triggering accuracy.

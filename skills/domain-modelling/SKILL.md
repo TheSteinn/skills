@@ -1,7 +1,6 @@
 ---
 name: domain-modelling
 description: Actively build and sharpen a project's domain model. Use when the user wants to pin down domain terminology or a ubiquitous language, record an architectural decision, or when another skill needs to maintain the domain model. Not for merely consuming the existing glossary — only for changing the model.
-user-invocable: false
 ---
 
 # Domain Modelling

@@ -1,12 +1,12 @@
 ---
 name: initialise-docs
-description: Bootstrap a repo's domain documentation — set up `docs/agents/domain.md` and the `CLAUDE.md`/`AGENTS.md` pointer, then scan the codebase and propose a draft `LANGUAGE.md` (per module in a monorepo). Setup only; refinement and new terms happen in `grill-with-docs`.
+description: Bootstrap a repo's domain documentation — set up `docs/agents/domain.md` and the `CLAUDE.md`/`AGENTS.md` pointer, then scan the codebase and propose a draft `LANGUAGE.md` (per module in a monorepo). Setup only; refinement and new terms happen in `domain-modelling`.
 disable-model-invocation: true
 ---
 
 Bootstrap this repo's domain documentation: wire up the consumer pointer, then scan the codebase and propose a draft
 glossary for my review. Breadth, not depth — get a reasonable starting `LANGUAGE.md` in place fast; relentless
-sharpening is `grill-with-docs`'s job. This is an initial-setup skill: act only where setup is missing, and never
+sharpening is `domain-modelling`'s job. This is an initial-setup skill: act only where setup is missing, and never
 refresh or re-scan content that already exists.
 
 ## 0. Dependency check
@@ -31,7 +31,7 @@ Coverage, not content. Check the repo's state:
   (monorepo)?
 
 **Everything present → do nothing.** Reply with one line: "Already initialised — for refinement or new terms, run
-`grill-with-docs`." Don't offer a re-scan; hunting for missed language is not this skill's job.
+`domain-modelling`." Don't offer a re-scan; hunting for missed language is not this skill's job.
 
 **Anything missing → complete just that**, without asking me to re-confirm the parts already done — idempotency is the
 point (wiring the pointer for a hand-created `LANGUAGE.md`, covering a module added since bootstrap).
@@ -108,7 +108,7 @@ fewer, high-signal entries; I confirm or prune before you write them.
 
 ## 6. Finish
 
-End with one line: "For deeper refinement of any area, run `grill-with-docs`."
+End with one line: "For deeper refinement of any area, run `domain-modelling`."
 
-Out of scope, always: ADRs (no candidate surfacing, no `docs/adr/` — that is `grill-with-docs` territory), software
+Out of scope, always: ADRs (no candidate surfacing, no `docs/adr/` — that is `domain-modelling` territory), software
 design patterns (human-owned in `AGENTS.md`/`CLAUDE.md`), and modifying existing glossary or map entries.

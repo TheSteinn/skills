@@ -24,8 +24,8 @@ Then load the supporting skills — actually invoke each one with the Skill tool
 nothing:
 
 - Invoke `codebase-designing` — its vocabulary (module, interface, seam, depth) is the language for everything below.
-- Invoke `domain-modelling` so terms and ADR-worthy decisions are captured as they crystallise. Invoke it whether or
-  not domain docs exist: it orients on `LANGUAGE.md`/`CONTEXT-MAP.md` when present, proceeds silently when absent, and
+- Invoke `domain-modelling` so terms and ADR-worthy decisions are captured as they crystallise. Invoke it whether or not
+  domain docs exist: it orients on `LANGUAGE.md`/`CONTEXT-MAP.md` when present, proceeds silently when absent, and
   creates `LANGUAGE.md` lazily on the first resolved term — so a project without domain docs starts keeping them here.
 
 ## 2. Brain-dump the draft
@@ -51,8 +51,11 @@ the cheapest reviewable sketch (an HTML mock, a diagram file) from the relevant 
 Invoke the `grilling` skill on the Open questions section. Questions come first: present no part of the design as
 settled until its branch is resolved. As each branch resolves, move it from Open questions into Resolved decisions
 immediately — in this document's own words, with a one-line rationale — so resolutions land at peak attention rather
-than batched at the end. The grill's closing decision record lives in `design.md` itself; do not write a separate
-Snapshot file.
+than batched at the end. Don't restrict the grilling session to only what is listed in the Open questions section; the
+entire decision tree should be walked, so if the session forks into further branches that were previously not predicted,
+those should be covered too.
+
+The grill's closing decision record lives in `design.md` itself; do not write a separate Snapshot file.
 
 ## 4. Hand off
 
